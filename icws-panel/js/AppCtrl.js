@@ -5,7 +5,12 @@ angular.module('IcwsPanel', []).controller('AppCtrl', ['$scope', '$window', func
 
     // Create a connection to the background page
     var backgroundPageConnection = chrome.runtime.connect({
-        name: "icws-panel"
+        name: 'icws-panel'
+    });
+
+    backgroundPageConnection.postMessage({
+        type: 'panel-init',
+        tabId: chrome.devtools.inspectedWindow.tabId
     });
 
     backgroundPageConnection.onMessage.addListener(message => {
