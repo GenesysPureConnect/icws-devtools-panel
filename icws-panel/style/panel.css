@@ -347,7 +347,7 @@ table#communication-entries tr.highlight {
     flex: 1 1 auto;
 }
 .communication-entry .name-content .extra {
-    flex: 0 0 auto;
+    flex: 0 1 auto;
 
     opacity: 0.6;
     padding-left: 10px;
