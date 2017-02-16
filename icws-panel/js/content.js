@@ -22,7 +22,7 @@ window.addEventListener('message', function(event){
         }
     }
     // All other messages targeted to our runtime id will be passed through to the extension
-    else if (message.target === chrome.runtime.id && typeof message.content === 'object') {
+    else if (message.target === chrome.runtime.id && typeof message.content === 'string') {
         chrome.runtime.sendMessage(message);
     }
 });
