@@ -18,7 +18,8 @@
                 <div class="data-grid data-grid-requests">
                     <table class="header">
                         <tr>
-                            <th class="name">Message</th>
+                            <th class="method">Type</th>
+                            <th class="name">Name</th>
                             <th class="timestamp">Timestamp</th>
                         </tr>
                     </table>
@@ -27,10 +28,19 @@
                             <tr ng-repeat="entry in app.communicationEntries track by $index"
                                 ng-click="app.selectEntry($index)"
                                 ng-class="{ selected: ($index === app.selectedEntryIndex) }">
-                                <td class="name">{{entry.content.__type}}</td>
+                                <td class="method" ng-switch="entry.type">
+                                    <span ng-switch-when="message">Message</span>
+                                    <span ng-switch-when="request">{{ entry.content.verb }}</span>
+                                </td>
+                                <td class="name" ng-switch="entry.type">
+                                    <span ng-switch-when="message">{{ entry.content.__type }}</span>
+                                    <span ng-switch-when="request">{{ entry.content.url }}</span>
+                                </td>
+                                <td class="name"></td>
                                 <td class="timestamp">{{ entry.timestamp | date:'HH:mm:ss.sss' }}</td>
                             </tr>
                             <tr class="filler">
+                                <td class="method"></td>
                                 <td class="name"></td>
                                 <td class="timestamp"></td>
                             </tr>
