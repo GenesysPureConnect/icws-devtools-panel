@@ -48,11 +48,35 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
         return false;
     }
 
+    function getShortUrl(tmpl, params) {
+        var url = tmpl, hasQS = (url.indexOf('?') !== -1), tokens = url.match(/\{([^\}]+)\}/g) || [];
+            tokens.forEach(function(m){
+                var tkn = m.slice(1, -1);
+                if (tkn in params.template) {
+                    url = url.replace(m, encodeURIComponent(params.template[tkn]));
+                }
+            });
+            Object.keys(params.query).forEach(function(q){
+                var value = params.query[q];
+                if (Array.isArray(value)) { value = value.join(','); }
+                url += (hasQS ? '&' : '?') + encodeURIComponent(q) + '=' + encodeURIComponent(value);
+                hasQS = true;
+            });
+        return url;
+    }
+
     function handleMessage(message) {
+        const messageTypePrefix = 'urn:inin.com:';
+        let messageType = message.content.__type;
+
+        if (typeof messageType === 'string' && messageType.startsWith(messageTypePrefix)) {
+            messageType = messageType.substring(messageTypePrefix.length);
+        }
+
         ctrl.communicationEntries.push({
             type: 'message',
             timestamp: new Date(message.timestamp),
-            resource: message.content.__type,
+            resource: messageType,
             content: message.content
         });
     }
@@ -82,10 +106,11 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
         var entry = ctrl.requestEntries[request.correlationId] = {
             type: 'request',
             timestamp: new Date(message.timestamp),
-            resource: request.url,
+            resource: getShortUrl(request.urlTemplate, request.params),
             result: 'pending',
             content: request
         };
+        request.shortUrl = entry.resource;
         request.requestTimestamp = entry.timestamp;
         ctrl.communicationEntries.push(entry);
         collectRequestData(entry);

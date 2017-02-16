@@ -351,51 +351,22 @@ table#communication-entries tr.highlight {
   background: #FAFAD2;
 }
 
-.queries-summary {
-  font-family: Lucida Grande, sans-serif;
-  font-size: 11px;
-  padding: 7px 0 0 5px;
-  font-weight: bold;
+.communication-entry .name-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: stretch;
 }
-
-.cached-queries-control {
-  float: right;
+.communication-entry .name-content .base {
+    flex: 1 1 auto;
 }
+.communication-entry .name-content .extra {
+    flex: 0 1 auto;
 
-table#db .CACHE, table#db .CACHE a {
-  color: #aaa;
+    opacity: 0.6;
+    padding-left: 10px;
+    text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
-
-#message-box {
-  z-index: 77777777777;
-  position:fixed;
-  bottom: 0;
-  right: 0;
-  background: orange;
-  color: black;
-  font-size: 12px;
-  padding: 1px 5px;
-}
-
-table .fluid {
-  width: 100%
-}
-
-table#breakdown td {
-  vertical-align: middle;
-}
-
-table#breakdown td.meter-col {
-  padding: 2px 0;
-}
-
-.meter {
-  padding: 9px 6px;
-  height: 30px;
-  background: #eee;
-  float:left;
-}
-
-
-
-
