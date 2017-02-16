@@ -1,0 +1,24 @@
+.icws-json-pretty-print {
+    font-size: 12px;
+}
+.icws-json-pretty-print .string,
+.icws-json-pretty-print .number,
+.icws-json-pretty-print .boolean,
+.icws-json-pretty-print .null {
+    font-weight: bold;
+}
+.icws-json-pretty-print .string {
+    color: orangered;
+}
+.icws-json-pretty-print .number {
+    color: green;
+}
+.icws-json-pretty-print .boolean {
+    color: blue;
+}
+.icws-json-pretty-print .null {
+    color: fuchsia;
+}
+.icws-json-pretty-print .key {
+    color: purple;
+}

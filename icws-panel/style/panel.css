@@ -13,6 +13,10 @@ ul {
   -webkit-margin-start: -30px;
 }
 
+.icws-json-pretty-print {
+    font-size: 12px;
+}
+
 .data-grid {
   border: none;
   position: absolute;

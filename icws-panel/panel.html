@@ -2,10 +2,14 @@
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="style/panel.css">
+        <link rel="stylesheet" type="text/css" href="style/icws-json-pretty-print.css">
 
         <!-- 3rd party -->
         <script src="vendor/js/angular.min.js"></script>
+        <script src="vendor/js/angular-sanitize.min.js"></script>
 
+        <script src="js/init.js"></script>
+        <script src="js/icws-json-pretty-print.js"></script>
         <script src="js/AppCtrl.js"></script>
     </head>
     <body class="icws-panel" ng-app="IcwsPanel" ng-csp>
@@ -38,6 +42,7 @@
             <div class="split-view-contents split-view-contents-details">
                 <div id="vdivider"></div>
                 <div id="detail" class="tabbed-pane">
+                    <pre class="message-detail" icws-json-pretty-print="app.selectedMessage.content"></pre>
                 </div>
             </div>
 
