@@ -1,19 +1,18 @@
 angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function AppCtrl($scope, $window){
     var ctrl = this;
 
-    this.messages = [];
-    this.communicationEntries = [];
-    this.messages = [];
-    this.selectedMessageIndex = -1;
-    this.selectedMessage = undefined;
-
     this.requestEntries = {};
-    this.selectMessage = (messageIndex) => {
-        if (messageIndex < 0 || messageIndex > this.messages.length) {
-            messageIndex = -1;
+    this.communicationEntries = [];
+    this.selectedEntryIndex = -1;
+    this.selectedEntry = undefined;
+
+    
+    this.selectEntry = (entryIndex) => {
+        if (entryIndex < 0 || entryIndex >= this.communicationEntries.length) {
+            entryIndex = -1;
         }
-        this.selectedMessageIndex = messageIndex;
-        this.selectedMessage = messageIndex < 0 ? undefined : this.messages[messageIndex];
+        this.selectedEntryIndex = entryIndex;
+        this.selectedEntry = entryIndex < 0 ? undefined : this.communicationEntries[entryIndex];
     };
 
     function handleMessage(message) {
@@ -34,6 +33,7 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
             result: 'pending',
             content: request
         };
+        request.requestTimestamp = entry.timestamp;
         ctrl.communicationEntries.push(entry);
     }
 

@@ -24,9 +24,9 @@
                     </table>
                     <div class="data-container">
                         <table id="requests">
-                            <tr ng-repeat="entry in app.messages track by $index"
-                                ng-click="app.selectMessage($index)"
-                                ng-class="{ selected: ($index === app.selectedMessageIndex) }">
+                            <tr ng-repeat="entry in app.communicationEntries track by $index"
+                                ng-click="app.selectEntry($index)"
+                                ng-class="{ selected: ($index === app.selectedEntryIndex) }">
                                 <td class="name">{{entry.content.__type}}</td>
                                 <td class="timestamp">{{ entry.timestamp | date:'HH:mm:ss.sss' }}</td>
                             </tr>
@@ -42,7 +42,7 @@
             <div class="split-view-contents split-view-contents-details">
                 <div id="vdivider"></div>
                 <div id="detail" class="tabbed-pane">
-                    <pre class="message-detail" icws-json-pretty-print="app.selectedMessage.content"></pre>
+                    <pre class="message-detail" icws-json-pretty-print="app.selectedEntry.content"></pre>
                 </div>
             </div>
 
