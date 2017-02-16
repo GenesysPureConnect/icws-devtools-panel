@@ -84,7 +84,7 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
     function collectRequestData(entry) {
         ctrl.sessionData.apiCallCount++;
         if (!ctrl.sessionData.sessionId) {
-            let matches = /\/api\/(\w+)\/icws\/(\d+)/.exec(entry.resource);
+            let matches = /\/api\/(\w+)\/icws\/(\d+)/.exec(entry.content.url);
             if (matches) {
                 ctrl.sessionData.icServerName = matches[1];
                 ctrl.sessionData.sessionId = matches[2];

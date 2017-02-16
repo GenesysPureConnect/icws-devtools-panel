@@ -1,0 +1,28 @@
+<div>
+    <table>
+        <tr>
+            <td class="header">Session ID</td>
+            <td>{{ data.sessionId }}</td>
+            <td class="header">Response Header Size</td>
+            <td>{{ data.responseSize.headers }}</td>
+        </tr>
+        <tr>
+            <td class="header">IC Server</td>
+            <td>{{ data.icServerName }}</td>
+            <td class="header">Response Body Size</td>
+            <td>{{ data.responseSize.body }}</td>
+        </tr>
+        <tr>
+            <td class="header">API Calls</td>
+            <td>{{ data.apiCallCount }}</td>
+            <td class="header">Request Header Size</td>
+            <td>{{ data.requestSize.headers }}</td>
+        </tr>
+        <tr>
+            <td class="header">Subscription Count</td>
+            <td>{{ data.subscriptionCount }}</td>
+            <td class="header">Request Body Size</td>
+            <td>{{ data.requestSize.body }}</td>
+        </tr>
+    </table>
+</div>

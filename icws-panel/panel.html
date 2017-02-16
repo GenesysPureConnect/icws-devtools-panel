@@ -10,6 +10,7 @@
         <script src="js/init.js"></script>
         <script src="js/icws-json-pretty-print.js"></script>
         <script src="js/icws-request-viewer.js"></script>
+        <script src="js/icws-session-info-viewer.js"></script>
         <script src="js/icws-doc-link.js"></script>
         <script src="js/AppCtrl.js"></script>
     </head>
@@ -63,32 +64,7 @@
                     <icws-request-viewer ng-switch-when="request" entry="app.selectedEntry" request="app.selectedEntry.content"></icws-request-viewer>
                 </div>
                 <div id="info">
-                  <table>
-                    <tr>
-                      <td class="header">Session ID</td>
-                      <td>{{ app.sessionData.sessionId }}</td>
-                      <td class="header">Response Header Size</td>
-                      <td>{{ app.sessionData.responseSize.headers }}</td>
-                    </tr>
-                    <tr>
-                      <td class="header">IC Server</td>
-                      <td>{{ app.sessionData.icServerName }}</td>
-                      <td class="header">Response Body Size</td>
-                      <td>{{ app.sessionData.responseSize.body }}</td>
-                    </tr>
-                    <tr>
-                      <td class="header">API Calls</td>
-                      <td>{{ app.sessionData.apiCallCount }}</td>
-                      <td class="header">Request Header Size</td>
-                      <td>{{ app.sessionData.requestSize.headers }}</td>
-                    </tr>
-                    <tr>
-                      <td class="header">Subscription Count</td>
-                      <td>{{ app.sessionData.subscriptionCount }}</td>
-                      <td class="header">Request Body Size</td>
-                      <td>{{ app.sessionData.requestSize.body }}</td>
-                    </tr>
-                  </table>
+                  <icws-session-info-viewer data="app.sessionData"></icws-session-info-viewer>
                 </div>
             </div>
         </div>
