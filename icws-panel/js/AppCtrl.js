@@ -74,6 +74,26 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
         });
     }
 
+    function collectRequestData(entry) {
+        ctrl.sessionData.apiCallCount++;
+        if (!ctrl.sessionData.sessionId) {
+            let matches = /\/api\/(\w+)\/icws\/(\d+)/.exec(entry.content.url);
+            if (matches) {
+                ctrl.sessionData.icServerName = matches[1];
+                ctrl.sessionData.sessionId = matches[2];
+            }
+        }
+
+        if (/\/icws\/[^\/]+\/messaging\/subscriptions\//.test(entry.resource)) {
+            // TODO: right now this only tracks subscriptions since the panel has been open
+            if (entry.content.verb === "DELETE") {
+                ctrl.sessionData.subscriptionCount--;
+            } else {
+                ctrl.sessionData.subscriptionCount++;
+            }
+        }
+    }
+
     function handleRequest(message) {
         var request = message.content;
         var entry = ctrl.requestEntries[request.correlationId] = {
@@ -86,6 +106,12 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
         request.shortUrl = entry.resource;
         request.requestTimestamp = entry.timestamp;
         ctrl.communicationEntries.push(entry);
+        collectRequestData(entry);
+    }
+
+    function collectResponseData(resp) {
+        ctrl.sessionData.responseSize.headers += resp.size.headers;
+        ctrl.sessionData.responseSize.body += resp.size.body;
     }
 
     function handleResponse(message) {
@@ -98,7 +124,9 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
             request.result = entry.result = response.result;
             request.responseTimestamp = new Date(message.timestamp);
             request.responseContent = response.content;
+            request.responseSize = response.size;
             request.duration = request.responseTimestamp.getTime() - request.requestTimestamp.getTime();
+            collectResponseData(response);
         }
     }
 
@@ -112,11 +140,25 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
         tabId: chrome.devtools.inspectedWindow.tabId
     });
 
+    this.sessionData = {
+        apiCallCount: 0,
+        subscriptionCount: 0,
+        responseSize: {
+            headers: 0,
+            body: 0
+        },
+        requestSize: {
+            headers: 0,
+            body: 0
+        }
+    };
+
     backgroundPageConnection.onMessage.addListener(message => {
         if (typeof message.content === 'string') {
             message.content = JSON.parse(message.content);
         }
         if (message.type === 'status') {
+            ctrl.uptime = Date.now();
             console.log(`Status message from background page: ${message.data}`);
         } else if (message.type === 'icws-message') {
             $scope.$apply(() => handleMessage(message));
@@ -125,5 +167,30 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
         } else if (message.type === 'icws-response') {
             $scope.$apply(() => handleResponse(message));
         }
+    });
+
+    // We can't get the request size from ICWS itself (a limitation of XmlHttpRequest)
+    // So use the chrome devtools network API
+    chrome.devtools.network.onRequestFinished.addListener(data => {
+        const request = data.request;
+        if (/\/icws\//.test(request.url)) {
+            let correlationId;
+            const correlationQueryParams = request.headers.filter(q => { return q.name === 'X-ICWS-DevTools-CorrelationId' });
+            if (correlationQueryParams.length > 0) {
+                correlationId = Number(correlationQueryParams[0].value);
+                var entry = ctrl.requestEntries[correlationId];
+                if (entry) {
+                    entry.content.requestSize = {
+                        headers: request.headersSize,
+                        body: request.bodySize
+                    };
+                }
+            }
+
+            // Update the size totals
+            ctrl.sessionData.requestSize.headers += request.headersSize;
+            ctrl.sessionData.requestSize.body += request.bodySize;
+        }
+        $scope.$digest();
     });
 }]);

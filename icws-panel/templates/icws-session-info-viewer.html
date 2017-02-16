@@ -1,0 +1,50 @@
+<div class="session-info">
+    <table class="session">
+        <tr>
+            <td colspan="3" class="label">Session Info</td>
+        <tr>
+            <td class="header">Session ID</td>
+            <td class="data">{{ data.sessionId }}</td>
+        </tr>
+        <tr>
+            <td class="header">IC Server</td>
+            <td class="data">{{ data.icServerName }}</td>
+        </tr>
+        <tr>
+            <td class="header">API Calls</td>
+            <td class="data">{{ data.apiCallCount }}</td>
+        </tr>
+        <tr>
+            <td class="header">Subscription Count</td>
+            <td class="data">{{ data.subscriptionCount }}</td>
+        </tr>
+    </table>
+    <table class="bandwidth">
+        <tr>
+            <td colspan="3" class="label">Bandwidth</td>
+        </tr>
+        <tr>
+            <td rowspan="2" class="header">Request</td>
+            <td>Header</td>
+            <td class="data">{{ data.requestSize.headers }}</td>
+        </tr>
+        <tr>
+            <td>Body</td>
+            <td class="data">{{ data.requestSize.body }}</td>
+        </tr>
+        <tr>
+            <td rowspan="2" class="header">Response</td>
+            <td>Header</td>
+            <td class="data">{{ data.responseSize.headers }}</td>
+        </tr>
+        <tr>
+            <td>Body</td>
+            <td class="data">{{ data.responseSize.body }}</td>
+        </tr>
+        <tr>
+            <td colspan="2" class="header">Totals</td>
+            <td class="data">{{ data.requestSize.headers + data.requestSize.body + data.responseSize.headers + data.responseSize.body }}</td>
+        </tr>
+    </table>
+</div>
+
