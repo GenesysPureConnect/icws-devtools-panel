@@ -49,17 +49,10 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
     }
 
     function handleMessage(message) {
-        const messageTypePrefix = 'urn:inin.com:';
-        let messageType = message.content.__type;
-
-        if (typeof messageType === 'string' && messageType.startsWith(messageTypePrefix)) {
-            messageType = messageType.substring(messageTypePrefix.length);
-        }
-
         ctrl.communicationEntries.push({
             type: 'message',
             timestamp: new Date(message.timestamp),
-            resource: messageType,
+            resource: message.content.__type,
             content: message.content
         });
     }

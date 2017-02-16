@@ -9,7 +9,9 @@
         <script src="vendor/js/angular-sanitize.min.js"></script>
 
         <script src="js/init.js"></script>
+        <script src="js/icwsMessageTypeFilter.js"></script>
         <script src="js/icws-json-pretty-print.js"></script>
+        <script src="js/icws-message-viewer.js"></script>
         <script src="js/icws-request-viewer.js"></script>
         <script src="js/AppCtrl.js"></script>
     </head>
@@ -36,7 +38,7 @@
                                 </td>
                                 <td class="name" ng-switch on="entry.type">
                                     <div ng-switch-when="message" class="name-content">
-                                        <span class="base">{{entry.resource}}</span>
+                                        <span class="base">{{ entry.resource | icwsMessageType }}</span>
                                         <span class="extra" title="Subscription ID: {{ entry.content.subscriptionId }}">{{entry.content.subscriptionId}}</span>
                                     </div>
                                     <div ng-switch-when="request" class="name-content">
@@ -59,7 +61,7 @@
             <div class="split-view-contents split-view-contents-details">
                 <div id="vdivider"></div>
                 <div id="detail" class="tabbed-pane" ng-switch="app.selectedEntry.type">
-                    <pre class="message-detail" ng-switch-when="message" icws-json-pretty-print="app.selectedEntry.content"></pre>
+                    <icws-message-viewer ng-switch-when="message" message="app.selectedEntry.content"></icws-message-viewer>
                     <icws-request-viewer ng-switch-when="request" request="app.selectedEntry.content"></icws-request-viewer>
                 </div>
             </div>
