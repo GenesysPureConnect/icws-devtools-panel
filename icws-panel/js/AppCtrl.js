@@ -138,6 +138,7 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
             message.content = JSON.parse(message.content);
         }
         if (message.type === 'status') {
+            ctrl.uptime = Date.now();
             console.log(`Status message from background page: ${message.data}`);
         } else if (message.type === 'icws-message') {
             $scope.$apply(() => handleMessage(message));
@@ -153,6 +154,20 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
     chrome.devtools.network.onRequestFinished.addListener(data => {
         const request = data.request;
         if (/\/icws\//.test(request.url)) {
+            let correlationId;
+            const correlationQueryParams = request.queryString.filter(q => { return q.name === 'correlationId' });
+            if (correlationQueryParams.length > 0) {
+                correlationId = Number(correlationQueryParams[0].value);
+                let entry = ctrl.requestEntries[correlationId];
+                if (entry) {
+                    entry.size = {
+                        headers: request.headersSize,
+                        body: request.bodySize
+                    };
+                }
+            }
+
+            // Update the size totals
             ctrl.sessionData.requestSize.headers += request.headersSize;
             ctrl.sessionData.requestSize.body += request.bodySize;
         }
