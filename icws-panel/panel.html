@@ -11,6 +11,7 @@
         <script src="js/init.js"></script>
         <script src="js/icws-json-pretty-print.js"></script>
         <script src="js/icws-request-viewer.js"></script>
+        <script src="js/icws-doc-link.js"></script>
         <script src="js/AppCtrl.js"></script>
     </head>
     <body class="icws-panel" ng-app="IcwsPanel" ng-csp>
@@ -50,7 +51,7 @@
                 <div id="vdivider"></div>
                 <div id="detail" class="tabbed-pane" ng-switch="app.selectedEntry.type">
                     <pre class="message-detail" ng-switch-when="message" icws-json-pretty-print="app.selectedEntry.content"></pre>
-                    <icws-request-viewer ng-switch-when="request" request="app.selectedEntry.content"></icws-request-viewer>
+                    <icws-request-viewer ng-switch-when="request" entry="app.selectedEntry" request="app.selectedEntry.content"></icws-request-viewer>
                 </div>
             </div>
 
