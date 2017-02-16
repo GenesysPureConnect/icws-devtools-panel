@@ -77,9 +77,10 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
                 response = message.content;
 
             request.status = response.status;
-            entry.result = response.result;
+            request.result = entry.result = response.result;
             request.responseTimestamp = new Date(message.timestamp);
             request.responseContent = response.content;
+            request.duration = request.responseTimestamp.getTime() - request.requestTimestamp.getTime();
         }
     }
 

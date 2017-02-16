@@ -7,7 +7,7 @@
             templateUrl: 'icws-request-viewer.html',
             replace: true,
             scope: {
-                request: '=entry'
+                request: '='
             }
         };
     }]);

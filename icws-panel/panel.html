@@ -54,7 +54,7 @@
                 <div id="vdivider"></div>
                 <div id="detail" class="tabbed-pane" ng-switch="app.selectedEntry.type">
                     <pre class="message-detail" ng-switch-when="message" icws-json-pretty-print="app.selectedEntry.content"></pre>
-                    <icws-request-viewer request="app.selectedEntry.content"></icws-request-viewer>
+                    <icws-request-viewer ng-switch-when="request" request="app.selectedEntry.content"></icws-request-viewer>
                 </div>
             </div>
 
