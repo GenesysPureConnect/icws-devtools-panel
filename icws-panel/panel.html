@@ -7,6 +7,8 @@
         <!-- 3rd party -->
         <script src="vendor/js/angular.min.js"></script>
         <script src="vendor/js/angular-sanitize.min.js"></script>
+        <script src="vendor/js/scrollglue.js"></script>
+
         <script src="js/init.js"></script>
         <script src="js/icwsMessageTypeFilter.js"></script>
         <script src="js/icws-json-pretty-print.js"></script>
@@ -27,7 +29,7 @@
                             <th class="timestamp">Timestamp</th>
                         </tr>
                     </table>
-                    <div class="data-container">
+                    <div class="data-container" scroll-glue>
                         <table id="communication-entries">
                             <tr ng-repeat="entry in app.communicationEntries track by $index"
                                 ng-click="app.selectEntry($index)"
