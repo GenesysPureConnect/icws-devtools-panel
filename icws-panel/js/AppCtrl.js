@@ -2,6 +2,16 @@ angular.module('IcwsPanel', []).controller('AppCtrl', ['$scope', '$window', func
     var ctrl = this;
 
     this.messages = [];
+    this.selectedMessageIndex = -1;
+    this.selectedMessage = undefined;
+
+    this.selectMessage = (messageIndex) => {
+        if (messageIndex < 0 || messageIndex > this.messages.length) {
+            messageIndex = -1;
+        }
+        this.selectedMessageIndex = messageIndex;
+        this.selectedMessage = messageIndex < 0 ? undefined : this.messages[messageIndex];
+    };
 
     this.requests = {};
 
