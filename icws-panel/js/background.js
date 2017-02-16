@@ -1,4 +1,5 @@
-var icwsPanelConnections = {};
+var icwsPanelConnections = {},
+    queuedMessages = {};
 
 chrome.runtime.onConnect.addListener(function (port) {
     // Listen for the special "panel-init" message from our devtools panel
@@ -7,6 +8,10 @@ chrome.runtime.onConnect.addListener(function (port) {
         if (message.type === 'panel-init') {
             icwsPanelConnections[message.tabId] = port;
             port.postMessage({ type: 'status', data: `Port "${port.name}" is now connected` });
+
+            if (Array.isArray(queuedMessages[message.tabId])) {
+                queuedMessages[message.tabId].forEach(port.postMessage.bind(port));
+            }
         }
     };
 
@@ -34,7 +39,10 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
         if (tabId in icwsPanelConnections) {
             icwsPanelConnections[tabId].postMessage(message);
         } else {
-            console.log('Received a message from an unrecognized tab ID (bg page connection was never initialized)');
+            if (!(tabId in queuedMessages)) {
+                queuedMessages[tabId] = [];
+            }
+            queuedMessages[tabId].push(message);
         }
     } else {
         console.log('Received a message with sender.tab undefined');
