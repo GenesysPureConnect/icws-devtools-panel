@@ -39,27 +39,27 @@
         <table>
           <tr>
             <td>Session ID</td>
-            <td>{{app.sessionData.sessionId}}</td>
-          </tr>
-          <tr>
-            <td>IC Server</td>
-            <td>{{app.sessionData.icServerName}}</td>
-          </tr>
-          <tr>
-            <td>API Calls</td>
-            <td>{{ app.sessionData.apiCallCount }}</td>
-          </tr>
-          <tr>
-            <td>Subscription Count</td>
-            <td>{{app.sessionData.subscriptionCount}}</td>
-          </tr>
-          <tr>
+            <td>{{ app.sessionData.sessionId }}</td>
             <td>Response Header Size</td>
             <td>{{ app.sessionData.responseSize.headers }}</td>
           </tr>
           <tr>
-            <td>Response Content Size</td>
-            <td>{{ app.sessionData.responseSize.content }}</td>
+            <td>IC Server</td>
+            <td>{{ app.sessionData.icServerName }}</td>
+            <td>Response Body Size</td>
+            <td>{{ app.sessionData.responseSize.body }}</td>
+          </tr>
+          <tr>
+            <td>API Calls</td>
+            <td>{{ app.sessionData.apiCallCount }}</td>
+            <td>Request Header Size</td>
+            <td>{{ app.sessionData.requestSize.headers }}</td>
+          </tr>
+          <tr>
+            <td>Subscription Count</td>
+            <td>{{ app.sessionData.subscriptionCount }}</td>
+            <td>Request Body Size</td>
+            <td>{{ app.sessionData.requestSize.body }}</td>
           </tr>
         </table>
       </div>
