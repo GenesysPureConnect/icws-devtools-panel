@@ -72,11 +72,11 @@ ul {
     overflow-y: overlay;
 }
 
-table#requests {
+table#communication-entries {
   height: 100%;
 }
 
-table#requests td {
+table#communication-entries td {
   padding: 8px 6px;
 }
 
@@ -161,7 +161,7 @@ table.header th {
   width: 56px;
 }
 
-#requests .timestamp {
+#communication-entries .timestamp {
   width: 74px;
 }
 
@@ -323,13 +323,18 @@ table.header th {
   padding: 10px;
 }
 
-table#requests tr {
+table#communication-entries tr {
   cursor:pointer;
 }
 
-table#requests tr.selected {
+table#communication-entries tr.selected,
+table#communication-entries tr.selected.highlight {
   background: #3879D9;
   color: white
+}
+
+table#communication-entries tr.highlight {
+  background: #FAFAD2;
 }
 
 .queries-summary {
