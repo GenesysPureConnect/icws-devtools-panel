@@ -6,14 +6,47 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
     this.selectedEntryIndex = -1;
     this.selectedEntry = undefined;
 
-    
+
     this.selectEntry = (entryIndex) => {
         if (entryIndex < 0 || entryIndex >= this.communicationEntries.length) {
             entryIndex = -1;
         }
         this.selectedEntryIndex = entryIndex;
         this.selectedEntry = entryIndex < 0 ? undefined : this.communicationEntries[entryIndex];
+        highlightRelatedEntries(entryIndex);
     };
+
+    function highlightRelatedEntries(entryIndex) {
+        const referenceEntry = ctrl.communicationEntries[entryIndex];
+
+        if (!referenceEntry) {
+            ctrl.communicationEntries.forEach(entry => { entry.highlight = false; });
+            return;
+        }
+
+        for (let entry of ctrl.communicationEntries) {
+            entry.highlight = areRelatedEntries(entry, referenceEntry);
+        }
+    }
+
+    function areRelatedEntries(entry1, entry2) {
+        if (entry1 === entry2) {
+            return true;
+        }
+
+        if (entry1.type === 'message' && entry2.type === 'message') {
+            let messageType1 = entry1.content.__type,
+                messageType2 = entry2.content.__type,
+                subscriptionId1 = entry1.content.subscriptionId,
+                subscriptionId2 = entry2.content.subscriptionId;
+
+            if (messageType1 === messageType2 && subscriptionId1 === subscriptionId2) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     function handleMessage(message) {
         ctrl.communicationEntries.push({
