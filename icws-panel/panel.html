@@ -11,7 +11,6 @@
         <script src="js/init.js"></script>
         <script src="js/icws-json-pretty-print.js"></script>
         <script src="js/icws-request-viewer.js"></script>
-        <script src="js/icws-doc-link.js"></script>
         <script src="js/AppCtrl.js"></script>
     </head>
     <body class="icws-panel" ng-app="IcwsPanel" ng-csp>
@@ -29,12 +28,22 @@
                         <table id="communication-entries">
                             <tr ng-repeat="entry in app.communicationEntries track by $index"
                                 ng-click="app.selectEntry($index)"
-                                ng-class="{ selected: ($index === app.selectedEntryIndex), highlight: entry.highlight }">
-                                <td class="method" ng-switch="entry.type">
+                                ng-class="{ selected: ($index === app.selectedEntryIndex), highlight: entry.highlight }"
+                                class="communication-entry communication-entry-{{entry.type}}">
+                                <td class="method" ng-switch on="entry.type">
                                     <span ng-switch-when="message">Message</span>
                                     <span ng-switch-when="request">{{ entry.content.verb }}</span>
                                 </td>
-                                <td class="name">{{ entry.resource }}</td>
+                                <td class="name" ng-switch on="entry.type">
+                                    <div ng-switch-when="message" class="name-content">
+                                        <span class="base">{{entry.resource}}</span>
+                                        <span class="extra" title="Subscription ID: {{ entry.content.subscriptionId }}">{{entry.content.subscriptionId}}</span>
+                                    </div>
+                                    <div ng-switch-when="request" class="name-content">
+                                        <span class="base">{{entry.resource}}</span>
+                                        <span class="extra">{{entry.status}}</span>
+                                    </div>
+                                </td>
                                 <td class="timestamp">{{ entry.timestamp | date:'HH:mm:ss.sss' }}</td>
                             </tr>
                             <tr class="filler">
@@ -51,7 +60,7 @@
                 <div id="vdivider"></div>
                 <div id="detail" class="tabbed-pane" ng-switch="app.selectedEntry.type">
                     <pre class="message-detail" ng-switch-when="message" icws-json-pretty-print="app.selectedEntry.content"></pre>
-                    <icws-request-viewer ng-switch-when="request" entry="app.selectedEntry" request="app.selectedEntry.content"></icws-request-viewer>
+                    <icws-request-viewer ng-switch-when="request" request="app.selectedEntry.content"></icws-request-viewer>
                 </div>
             </div>
 
