@@ -1,7 +1,81 @@
-angular.module('IcwsPanel', []).controller('AppCtrl', ['$scope', '$window', function AppCtrl($scope, $window){
+angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function AppCtrl($scope, $window){
     var ctrl = this;
 
-    this.messages = [];
+    this.requestEntries = {};
+    this.communicationEntries = [];
+    this.selectedEntryIndex = -1;
+    this.selectedEntry = undefined;
+
+    
+    this.selectEntry = (entryIndex) => {
+        if (entryIndex < 0 || entryIndex >= this.communicationEntries.length) {
+            entryIndex = -1;
+        }
+        this.selectedEntryIndex = entryIndex;
+        this.selectedEntry = entryIndex < 0 ? undefined : this.communicationEntries[entryIndex];
+    };
+
+    function handleMessage(message) {
+        ctrl.communicationEntries.push({
+            type: 'message',
+            timestamp: new Date(message.timestamp),
+            resource: message.content.__type,
+            content: message.content
+        });
+    }
+
+    function collectRequestData(entry) {
+        ctrl.sessionData.apiCallCount++;
+        if (!ctrl.sessionData.sessionId) {
+            let matches = /\/api\/(\w+)\/icws\/(\d+)/.exec(entry.resource);
+            if (matches) {
+                ctrl.sessionData.icServerName = matches[1];
+                ctrl.sessionData.sessionId = matches[2];
+            }
+        }
+
+        if (/\/icws\/[^\/]+\/messaging\/subscriptions\//.test(entry.resource)) {
+            // TODO: right now this only tracks subscriptions since the panel has been open
+            if (entry.content.verb === "DELETE") {
+                ctrl.sessionData.subscriptionCount--;
+            } else {
+                ctrl.sessionData.subscriptionCount++;
+            }
+        }
+    }
+
+    function handleRequest(message) {
+        var request = message.content;
+        var entry = ctrl.requestEntries[request.correlationId] = {
+            type: 'request',
+            timestamp: new Date(message.timestamp),
+            resource: request.url,
+            result: 'pending',
+            content: request
+        };
+        request.requestTimestamp = entry.timestamp;
+        ctrl.communicationEntries.push(entry);
+        collectRequestData(entry);
+    }
+
+    function collectResponseData(resp) {
+        ctrl.sessionData.responseSize.headers += resp.size.headers;
+        ctrl.sessionData.responseSize.body += resp.size.body;
+    }
+
+    function handleResponse(message) {
+        var entry = ctrl.requestEntries[message.content.correlationId];
+        if (entry) {
+            var request = entry.content,
+                response = message.content;
+
+            request.status = response.status;
+            entry.result = response.result;
+            request.responseTimestamp = new Date(message.timestamp);
+            request.responseContent = response.content;
+            collectResponseData(response);
+        }
+    }
 
     // Create a connection to the background page
     var backgroundPageConnection = chrome.runtime.connect({
@@ -27,35 +101,17 @@ angular.module('IcwsPanel', []).controller('AppCtrl', ['$scope', '$window', func
     };
 
     backgroundPageConnection.onMessage.addListener(message => {
+        if (typeof message.content === 'string') {
+            message.content = JSON.parse(message.content);
+        }
         if (message.type === 'status') {
             console.log(`Status message from background page: ${message.data}`);
         } else if (message.type === 'icws-message') {
-            $scope.$apply(() => this.messages.push(message));
-            // TODO: get over-the-wire size?
+            $scope.$apply(() => handleMessage(message));
         } else if (message.type === 'icws-request') {
-            this.sessionData.apiCallCount++;
-            // console.log(message.content);
-            if (!this.sessionData.sessionId) {
-                let matches = /\/api\/(\w+)\/icws\/(\d+)/.exec(message.content.url);
-                if (matches) {
-                    this.sessionData.icServerName = matches[1];
-                    this.sessionData.sessionId = matches[2];
-                }
-            }
-
-            if (/\/icws\/[^\/]+\/messaging\/subscriptions\//.test(message.content.url)) {
-                // TODO: right now this only tracks subscriptions since the panel has been open
-                if (message.content.verb === "DELETE") {
-                    this.sessionData.subscriptionCount--;
-                } else {
-                    this.sessionData.subscriptionCount++;
-                }
-            }
-            $scope.$digest();
+            $scope.$apply(() => handleRequest(message));
         } else if (message.type === 'icws-response') {
-            this.sessionData.responseSize.headers += message.content.size.headers;
-            this.sessionData.responseSize.body += message.content.size.body;
-            $scope.$digest();
+            $scope.$apply(() => handleResponse(message));
         }
     });
 
@@ -64,8 +120,8 @@ angular.module('IcwsPanel', []).controller('AppCtrl', ['$scope', '$window', func
     chrome.devtools.network.onRequestFinished.addListener(data => {
         const request = data.request;
         if (/\/icws\//.test(request.url)) {
-            this.sessionData.requestSize.headers += request.headersSize;
-            this.sessionData.requestSize.body += request.bodySize;
+            ctrl.sessionData.requestSize.headers += request.headersSize;
+            ctrl.sessionData.requestSize.body += request.bodySize;
         }
     });
 }]);
