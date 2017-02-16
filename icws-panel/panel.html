@@ -44,7 +44,7 @@
                                     </div>
                                     <div ng-switch-when="request" class="name-content">
                                         <span class="base">{{entry.resource}}</span>
-                                        <span class="extra">{{entry.content.status}}</span>
+                                        <span class="extra" ng-hide="200 <= entry.content.status && entry.content.status < 300">{{entry.content.status}}</span>
                                     </div>
                                 </td>
                                 <td class="timestamp">{{ entry.timestamp | date:'HH:mm:ss.sss' }}</td>
