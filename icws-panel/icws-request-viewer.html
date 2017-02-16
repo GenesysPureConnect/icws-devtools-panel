@@ -37,11 +37,11 @@
             </tr>
             <tr>
                 <th>Header Size</th>
-                <td>{{ viewerCtrl.getRequestHeaderSize() }}</td>
+                <td>{{ request.requestSize.headers }}</td>
             </tr>
             <tr>
                 <th>Body Size</th>
-                <td>{{ viewerCtrl.getRequestBodySize() }}</td>
+                <td>{{ request.requestSize.body }}</td>
             </tr>
         </tbody>
     </table>
@@ -55,7 +55,7 @@
             </tr>
             <tr ng-show="request.responseContent">
                 <th>Body</th>
-                <td><pre icws-json-pretty-print="request.repsonseContent"></pre></td>
+                <td><pre icws-json-pretty-print="request.responseContent"></pre></td>
             </tr>
             <tr>
                 <th>Responded at</th>
@@ -68,6 +68,14 @@
             <tr>
                 <th>Result</th>
                 <td>{{ request.result }}</td>
+            </tr>
+            <tr>
+                <th>Header Size</th>
+                <td>{{ request.responseSize.headers }}</td>
+            </tr>
+            <tr>
+                <th>Body Size</th>
+                <td>{{ request.responseSize.body }}</td>
             </tr>
         </tbody>
     </table>

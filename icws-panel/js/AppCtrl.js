@@ -106,6 +106,7 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
             request.result = entry.result = response.result;
             request.responseTimestamp = new Date(message.timestamp);
             request.responseContent = response.content;
+            request.responseSize = response.size;
             request.duration = request.responseTimestamp.getTime() - request.requestTimestamp.getTime();
             collectResponseData(response);
         }
@@ -161,7 +162,7 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
                 correlationId = Number(correlationQueryParams[0].value);
                 var entry = ctrl.requestEntries[correlationId];
                 if (entry) {
-                    entry.content.size = {
+                    entry.content.requestSize = {
                         headers: request.headersSize,
                         body: request.bodySize
                     };
