@@ -72,6 +72,26 @@ ul {
     overflow-y: overlay;
 }
 
+div.session-info {
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: space-around;
+}
+
+div.session-info td.label {
+  font-size: 1.2em;
+  font-weight: bold;
+  text-align: center;
+}
+
+div.session-info td {
+  padding: 2px 4px;
+}
+
+div.session-info td.data {
+  text-align: right
+}
+
 table#communication-entries {
   height: 100%;
 }
@@ -235,12 +255,12 @@ table td.header {
 
   #detail {
     overflow: auto;
-    height: 75%;
+    height: 72%;
   }
 
   #info {
     border-top: 1px solid rgb(179, 179, 179);
-    height: 25%;
+    height: 28%;
   }
 
   #hdivider {
