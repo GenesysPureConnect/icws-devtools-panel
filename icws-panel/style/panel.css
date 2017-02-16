@@ -13,6 +13,10 @@ ul {
   -webkit-margin-start: -30px;
 }
 
+.icws-json-pretty-print {
+    font-size: 12px;
+}
+
 .data-grid {
   border: none;
   position: absolute;
@@ -110,7 +114,7 @@ table#requests td {
   border-right: 1px solid #eee;
 }
 
-.data-grid-details table td.duration {
+.data-grid-details table td.timestamp {
   white-space: nowrap;
 }
 
@@ -132,7 +136,7 @@ th, td {
   text-align: left;
 }
 
-.view, .db, .other, .duration {
+.view, .db, .other, .timestamp {
   text-align: right;
 }
 
@@ -140,7 +144,7 @@ th, td {
   background: rgba(0, 0, 0, 0.05);
 }
 
-td.method, td.format, td.status, td.view, td.db, td.other, td.duration {
+td.method, td.format, td.status, td.view, td.db, td.other, td.timestamp {
   background: rgba(0, 0, 0, 0.05);
 }
 
@@ -157,7 +161,7 @@ table.header th {
   width: 56px;
 }
 
-#requests .duration {
+#requests .timestamp {
   width: 74px;
 }
 
@@ -240,7 +244,7 @@ table.header th {
 
 }
 
-.data-grid table th.duration {
+.data-grid table th.timestamp {
   border-right: none;
   width: 75px;
 }
