@@ -22,3 +22,6 @@
 .icws-json-pretty-print .key {
     color: purple;
 }
+.icws-json-pretty-print .key .quote {
+    font-size: 0;
+}
