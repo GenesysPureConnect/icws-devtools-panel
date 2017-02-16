@@ -22,8 +22,8 @@
           <div class="data-container">
             <table id="requests">
               <tr ng-repeat="entry in app.messages">
-                <td class="status">{{entry.data.subscriptionId}}</td>
-                <td class="controller">{{entry.data.__type}}</td>
+                <td class="status">{{entry.content.subscriptionId}}</td>
+                <td class="controller">{{entry.content.__type}}</td>
                 <td class="duration">{{ entry.timestamp }}</td>
               </tr>
               <tr class="filler">
