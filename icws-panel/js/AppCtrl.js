@@ -1,24 +1,41 @@
 angular.module('IcwsPanel', []).controller('AppCtrl', ['$scope', '$window', function AppCtrl($scope, $window){
     var ctrl = this;
 
-    this.messages = [];
+    this.communicationEntries = [];
 
-    this.requests = {};
+    this.requestEntries = {};
+
+    function handleMessage(message) {
+        ctrl.communicationEntries.push({
+            type: 'message',
+            timestamp: new Date(message.timestamp),
+            resource: message.content.__type,
+            content: message.content
+        });
+    }
 
     function handleRequest(message) {
-        var content = message.content;
-        ctrl.requests[content.correlationId] = content;
-        content.requestTimestamp = message.timestamp;
-        content.result = 'pending';
+        var request = message.content;
+        var entry = ctrl.requestEntries[request.correlationId] = {
+            type: 'request',
+            timestamp: new Date(message.timestamp),
+            resource: request.url,
+            result: 'pending',
+            content: request
+        };
+        ctrl.communicationEntries.push(entry);
     }
 
     function handleResponse(message) {
-        var request = ctrl.requests[message.content.correlationId];
-        if (request) {
-            request.result = message.content.result;
-            request.status = message.content.status;
-            request.responseTimestamp = message.timestamp;
-            request.responseContent = message.content.content;
+        var entry = ctrl.requestEntries[message.content.correlationId];
+        if (entry) {
+            var request = entry.content,
+                response = message.content;
+
+            request.status = response.status;
+            entry.result = response.result;
+            request.responseTimestamp = new Date(message.timestamp);
+            request.responseContent = response.content;
         }
     }
 
@@ -39,7 +56,7 @@ angular.module('IcwsPanel', []).controller('AppCtrl', ['$scope', '$window', func
         if (message.type === 'status') {
             console.log(`Status message from background page: ${message.data}`);
         } else if (message.type === 'icws-message') {
-            $scope.$apply(() => this.messages.push(message));
+            $scope.$apply(() => handleMessage(message));
         } else if (message.type === 'icws-request') {
             $scope.$apply(() => handleRequest(message));
         } else if (message.type === 'icws-response') {

@@ -14,17 +14,19 @@
         <div class="data-grid data-grid-requests">
           <table class="header">
             <tr>
-              <th class="status">SubscriptionId</th>
-              <th class="controller">Type</th>
+              <th class="status">Type</th>
+              <th class="controller">Resource</th>
               <th class="duration">Timestamp</th>
+              <th class="duration">Status</th>
             </tr>
           </table>
           <div class="data-container">
             <table id="requests">
-              <tr ng-repeat="entry in app.messages">
-                <td class="status">{{entry.data.subscriptionId}}</td>
-                <td class="controller">{{entry.data.__type}}</td>
+              <tr ng-repeat="entry in app.communicationEntries">
+                <td class="status">{{entry.content.verb || entry.type  }}</td>
+                <td class="controller">{{entry.resource}}</td>
                 <td class="duration">{{ entry.timestamp }}</td>
+                <td class="duration">{{ entry.content.status || entry.result }}</td>
               </tr>
               <tr class="filler">
                 <td class="status"></td>
@@ -35,6 +37,7 @@
           </div>
         </div>
       </div>
+
       <!--
       <div class="split-view-contents split-view-contents-details">
         <div id="vdivider"></div>
