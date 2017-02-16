@@ -9,7 +9,7 @@
             </tr>
             <tr>
                 <th>URL</th>
-                <td>{{ request.url }}</td>
+                <td>{{ request.shortUrl }}</td>
             </tr>
             <tr>
                 <th>Timeout (ms)</th>
@@ -47,7 +47,7 @@
             </tr>
             <tr ng-show="request.responseContent">
                 <th>Body</th>
-                <td><pre icws-json-pretty-print="request.repsonseContent"></pre></td>
+                <td><pre icws-json-pretty-print="request.responseContent"></pre></td>
             </tr>
             <tr>
                 <th>Responded at</th>
@@ -73,7 +73,7 @@
             </tr>
             <tr>
                 <th>More Information</th>
-                <td><a href="#">Read the documentation</a></td>
+                <td><icws-doc-link entry="entry">Read the doc</icws-doc-link></td>
             </tr>
         </tbody>
     </table>
