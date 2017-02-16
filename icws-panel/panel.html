@@ -9,6 +9,7 @@
         <script src="vendor/js/angular-sanitize.min.js"></script>
         <script src="js/init.js"></script>
         <script src="js/icws-json-pretty-print.js"></script>
+        <script src="js/icws-request-viewer.js"></script>
         <script src="js/AppCtrl.js"></script>
     </head>
     <body class="icws-panel" ng-app="IcwsPanel" ng-csp>
@@ -17,7 +18,8 @@
                 <div class="data-grid data-grid-requests">
                     <table class="header">
                         <tr>
-                            <th class="name">Message</th>
+                            <th class="method">Type</th>
+                            <th class="name">Name</th>
                             <th class="timestamp">Timestamp</th>
                         </tr>
                     </table>
@@ -26,10 +28,19 @@
                             <tr ng-repeat="entry in app.communicationEntries track by $index"
                                 ng-click="app.selectEntry($index)"
                                 ng-class="{ selected: ($index === app.selectedEntryIndex), highlight: entry.highlight }">
-                                <td class="name">{{entry.content.__type}}</td>
+                                <td class="method" ng-switch="entry.type">
+                                    <span ng-switch-when="message">Message</span>
+                                    <span ng-switch-when="request">{{ entry.content.verb }}</span>
+                                </td>
+                                <td class="name" ng-switch="entry.type">
+                                    <span ng-switch-when="message">{{ entry.content.__type }}</span>
+                                    <span ng-switch-when="request">{{ entry.content.url }}</span>
+                                </td>
+                                <td class="name"></td>
                                 <td class="timestamp">{{ entry.timestamp | date:'HH:mm:ss.sss' }}</td>
                             </tr>
                             <tr class="filler">
+                                <td class="method"></td>
                                 <td class="name"></td>
                                 <td class="timestamp"></td>
                             </tr>
@@ -40,8 +51,9 @@
 
             <div class="split-view-contents split-view-contents-details">
                 <div id="vdivider"></div>
-                <div id="detail" class="tabbed-pane">
-                    <pre class="message-detail" icws-json-pretty-print="app.selectedEntry.content"></pre>
+                <div id="detail" class="tabbed-pane" ng-switch="app.selectedEntry.type">
+                    <pre class="message-detail" ng-switch-when="message" icws-json-pretty-print="app.selectedEntry.content"></pre>
+                    <icws-request-viewer ng-switch-when="request" request="app.selectedEntry.content"></icws-request-viewer>
                 </div>
                 <div id="info">
                   <table>
