@@ -8,7 +8,9 @@
         <script src="vendor/js/angular.min.js"></script>
         <script src="vendor/js/angular-sanitize.min.js"></script>
         <script src="js/init.js"></script>
+        <script src="js/icwsMessageTypeFilter.js"></script>
         <script src="js/icws-json-pretty-print.js"></script>
+        <script src="js/icws-message-viewer.js"></script>
         <script src="js/icws-request-viewer.js"></script>
         <script src="js/icws-session-info-viewer.js"></script>
         <script src="js/icws-doc-link.js"></script>
@@ -37,12 +39,12 @@
                                 </td>
                                 <td class="name" ng-switch on="entry.type">
                                     <div ng-switch-when="message" class="name-content">
-                                        <span class="base">{{entry.resource}}</span>
+                                        <span class="base">{{ entry.resource | icwsMessageType }}</span>
                                         <span class="extra" title="Subscription ID: {{ entry.content.subscriptionId }}">{{entry.content.subscriptionId}}</span>
                                     </div>
                                     <div ng-switch-when="request" class="name-content">
                                         <span class="base">{{entry.resource}}</span>
-                                        <span class="extra">{{entry.status}}</span>
+                                        <span class="extra">{{entry.content.status}}</span>
                                     </div>
                                 </td>
                                 <td class="timestamp">{{ entry.timestamp | date:'HH:mm:ss.sss' }}</td>
@@ -60,7 +62,7 @@
             <div class="split-view-contents split-view-contents-details">
                 <div id="vdivider"></div>
                 <div id="detail" class="tabbed-pane" ng-switch="app.selectedEntry.type">
-                    <pre class="message-detail" ng-switch-when="message" icws-json-pretty-print="app.selectedEntry.content"></pre>
+                    <icws-message-viewer ng-switch-when="message" message="app.selectedEntry.content"></icws-message-viewer>
                     <icws-request-viewer ng-switch-when="request" entry="app.selectedEntry" request="app.selectedEntry.content"></icws-request-viewer>
                 </div>
                 <div id="info">
