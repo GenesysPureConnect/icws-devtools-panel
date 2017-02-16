@@ -35,6 +35,34 @@
           </div>
         </div>
       </div>
+      <div class="split-view-contents split-view-contents-details">
+        <table>
+          <tr>
+            <td>Session ID</td>
+            <td>{{app.sessionData.sessionId}}</td>
+          </tr>
+          <tr>
+            <td>IC Server</td>
+            <td>{{app.sessionData.icServerName}}</td>
+          </tr>
+          <tr>
+            <td>API Calls</td>
+            <td>{{ app.sessionData.apiCallCount }}</td>
+          </tr>
+          <tr>
+            <td>Subscription Count</td>
+            <td>{{app.sessionData.subscriptionCount}}</td>
+          </tr>
+          <tr>
+            <td>Response Header Size</td>
+            <td>{{ app.sessionData.responseSize.headers }}</td>
+          </tr>
+          <tr>
+            <td>Response Content Size</td>
+            <td>{{ app.sessionData.responseSize.content }}</td>
+          </tr>
+        </table>
+      </div>
       <!--
       <div class="split-view-contents split-view-contents-details">
         <div id="vdivider"></div>

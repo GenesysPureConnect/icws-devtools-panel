@@ -15,7 +15,11 @@ angular.module('IcwsPanel', []).controller('AppCtrl', ['$scope', '$window', func
 
     this.sessionData = {
         apiCallCount: 0,
-        subscriptionCount: 0
+        subscriptionCount: 0,
+        responseSize: {
+            headers: 0,
+            content: 0
+        }
     };
 
     backgroundPageConnection.onMessage.addListener(message => {
@@ -25,7 +29,7 @@ angular.module('IcwsPanel', []).controller('AppCtrl', ['$scope', '$window', func
             $scope.$apply(() => this.messages.push(message));
         } else if (message.type === 'icws-request') {
             this.sessionData.apiCallCount++;
-            console.log(message.content);
+            // console.log(message.content);
             if (!this.sessionData.sessionId) {
                 var matches = /\/api\/(\w+)\/icws\/(\d+)/.exec(message.content.url);
                 if (matches) {
@@ -37,16 +41,16 @@ angular.module('IcwsPanel', []).controller('AppCtrl', ['$scope', '$window', func
             if (/\/icws\/[^\/]+\/messaging\/subscriptions\//.test(message.content.url)) {
                 // TODO: right now this only tracks subscriptions since the panel has been open
                 if (message.content.verb === "DELETE") {
-                    this.sessionData.subscriptionCallCount--;
+                    this.sessionData.subscriptionCount--;
                 } else {
-                    this.sessionData.subscriptionCallCount++;
+                    this.sessionData.subscriptionCount++;
                 }
             }
             $scope.$digest();
         } else if (message.type === 'icws-response') {
-
+            this.sessionData.responseSize.headers += message.content.size.headers;
+            this.sessionData.responseSize.content += message.content.size.content;
+            $scope.$digest();
         }
     });
-
-
 }]);
