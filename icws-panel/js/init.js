@@ -1,1 +1,1 @@
-angular.module('IcwsPanel', ['ngSanitize']);
+angular.module('IcwsPanel', ['ngSanitize', 'luegg.directives']);
