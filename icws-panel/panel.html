@@ -23,10 +23,10 @@
                         </tr>
                     </table>
                     <div class="data-container">
-                        <table id="requests">
+                        <table id="communication-entries">
                             <tr ng-repeat="entry in app.communicationEntries track by $index"
                                 ng-click="app.selectEntry($index)"
-                                ng-class="{ selected: ($index === app.selectedEntryIndex) }">
+                                ng-class="{ selected: ($index === app.selectedEntryIndex), highlight: entry.highlight }">
                                 <td class="name">{{entry.content.__type}}</td>
                                 <td class="timestamp">{{ entry.timestamp | date:'HH:mm:ss.sss' }}</td>
                             </tr>
