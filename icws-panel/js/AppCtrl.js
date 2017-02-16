@@ -157,7 +157,7 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
         const request = data.request;
         if (/\/icws\//.test(request.url)) {
             let correlationId;
-            const correlationQueryParams = request.queryString.filter(q => { return q.name === 'correlationId' });
+            const correlationQueryParams = request.headers.filter(q => { return q.name === 'correlationId' });
             if (correlationQueryParams.length > 0) {
                 correlationId = Number(correlationQueryParams[0].value);
                 var entry = ctrl.requestEntries[correlationId];
