@@ -35,6 +35,14 @@
                 <th>Requested at</th>
                 <td>{{ request.requestTimestamp | date:'HH:mm:ss.sss' }}</td>
             </tr>
+            <tr>
+                <th>Header Size</th>
+                <td>{{ request.requestSize.headers }}</td>
+            </tr>
+            <tr>
+                <th>Body Size</th>
+                <td>{{ request.requestSize.body }}</td>
+            </tr>
         </tbody>
     </table>
 
@@ -60,6 +68,14 @@
             <tr>
                 <th>Result</th>
                 <td>{{ request.result }}</td>
+            </tr>
+            <tr>
+                <th>Header Size</th>
+                <td>{{ request.responseSize.headers }}</td>
+            </tr>
+            <tr>
+                <th>Body Size</th>
+                <td>{{ request.responseSize.body }}</td>
             </tr>
         </tbody>
     </table>

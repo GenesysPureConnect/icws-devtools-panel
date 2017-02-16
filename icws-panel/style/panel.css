@@ -72,6 +72,26 @@ ul {
     overflow-y: overlay;
 }
 
+div.session-info {
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: space-around;
+}
+
+div.session-info td.label {
+  font-size: 1.2em;
+  font-weight: bold;
+  text-align: center;
+}
+
+div.session-info td {
+  padding: 2px 4px;
+}
+
+div.session-info td.data {
+  text-align: right
+}
+
 table#communication-entries {
   height: 100%;
 }
@@ -157,6 +177,10 @@ table.header th {
   background: -webkit-gradient(linear, left top, left bottom, from(#ECECEC), to(#D9D9D9))
 }
 
+table td.header {
+  font-weight: bold;
+}
+
 .method, .format, .status, .view, .db, .other {
   width: 56px;
 }
@@ -227,6 +251,16 @@ table.header th {
     left: 480px;
     width: auto;
     min-width: 365px;
+  }
+
+  #detail {
+    overflow: auto;
+    height: 72%;
+  }
+
+  #info {
+    border-top: 1px solid rgb(179, 179, 179);
+    height: 28%;
   }
 
   #hdivider {

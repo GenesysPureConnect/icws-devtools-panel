@@ -14,6 +14,7 @@
         <script src="js/icws-json-pretty-print.js"></script>
         <script src="js/icws-message-viewer.js"></script>
         <script src="js/icws-request-viewer.js"></script>
+        <script src="js/icws-session-info-viewer.js"></script>
         <script src="js/icws-doc-link.js"></script>
         <script src="js/AppCtrl.js"></script>
     </head>
@@ -66,8 +67,10 @@
                     <icws-message-viewer ng-switch-when="message" message="app.selectedEntry.content"></icws-message-viewer>
                     <icws-request-viewer ng-switch-when="request" entry="app.selectedEntry" request="app.selectedEntry.content"></icws-request-viewer>
                 </div>
+                <div id="info">
+                  <icws-session-info-viewer data="app.sessionData"></icws-session-info-viewer>
+                </div>
             </div>
-
         </div>
 
     </body>
