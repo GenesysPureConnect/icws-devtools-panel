@@ -26,8 +26,18 @@
                         <table id="communication-entries">
                             <tr ng-repeat="entry in app.communicationEntries track by $index"
                                 ng-click="app.selectEntry($index)"
-                                ng-class="{ selected: ($index === app.selectedEntryIndex), highlight: entry.highlight }">
-                                <td class="name">{{entry.content.__type}}</td>
+                                ng-class="{ selected: ($index === app.selectedEntryIndex), highlight: entry.highlight }"
+                                class="communication-entry communication-entry-{{entry.type}}">
+                                <td class="name" ng-switch on="entry.type">
+                                    <div ng-switch-when="message" class="name-content">
+                                        <span class="base">{{entry.resource}}</span>
+                                        <span class="extra" title="Subscription ID: {{ entry.content.subscriptionId }}">{{entry.content.subscriptionId}}</span>
+                                    </div>
+                                    <div ng-switch-when="request" class="name-content">
+                                        <span class="base">{{entry.resource}}</span>
+                                        <span class="extra">{{entry.status}}</span>
+                                    </div>
+                                </td>
                                 <td class="timestamp">{{ entry.timestamp | date:'HH:mm:ss.sss' }}</td>
                             </tr>
                             <tr class="filler">
