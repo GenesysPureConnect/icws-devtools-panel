@@ -159,9 +159,9 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
             const correlationQueryParams = request.queryString.filter(q => { return q.name === 'correlationId' });
             if (correlationQueryParams.length > 0) {
                 correlationId = Number(correlationQueryParams[0].value);
-                let entry = ctrl.requestEntries[correlationId];
+                var entry = ctrl.requestEntries[correlationId];
                 if (entry) {
-                    entry.size = {
+                    entry.content.size = {
                         headers: request.headersSize,
                         body: request.bodySize
                     };
@@ -172,5 +172,6 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
             ctrl.sessionData.requestSize.headers += request.headersSize;
             ctrl.sessionData.requestSize.body += request.bodySize;
         }
+        $scope.$digest();
     });
 }]);

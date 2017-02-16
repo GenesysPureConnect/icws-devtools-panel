@@ -35,6 +35,14 @@
                 <th>Requested at</th>
                 <td>{{ request.requestTimestamp | date:'HH:mm:ss.sss' }}</td>
             </tr>
+            <tr>
+                <th>Header Size</th>
+                <td>{{ viewerCtrl.getRequestHeaderSize() }}</td>
+            </tr>
+            <tr>
+                <th>Body Size</th>
+                <td>{{ viewerCtrl.getRequestBodySize() }}</td>
+            </tr>
         </tbody>
     </table>
 
