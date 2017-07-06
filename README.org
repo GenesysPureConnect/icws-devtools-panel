@@ -1,0 +1,25 @@
+* ICWS Chrome Devtools Extension
+** Purpose
+When developing for /Interaction Connect/, a lot of ICWS server calls
+are made back and forth across the wire between the server and the
+client. This extension attempts to alleviate some of the difficulties
+and annoyances involved in digging through the network traffic logs by
+bringing the relevant information up to the forefront and removing
+irrelevant clutter.
+** Build Instructions
+The node script =package-extension.js= is our compilation script. It
+requires the packages [[https://github.com/oncletom/crx][crx]] and [[https://github.com/archiverjs/node-archiver][archiver]] to be installed (simply =npm=
+=install crx= and =archiver=). Also, please remember to update the
+version number in =manifest.json=. It's kind of annoying, but it's
+also not that important.
+
+Running this script will generate a =.crx= and a =.zip=. The =.crx= is
+the packaged binary, while the =.zip= is the compressed source
+directory that will be uploaded to the Google store page.
+** Upload Instructions
+To upload an updated version, go to the [[https://chrome.google.com/webstore/developer/dashboard][chrome developer dashboard]] and
+log in with the =genesys.icws@gmail.com= account. There should be a
+listing for the extension, including an Edit link. Click the link,
+then click on the "Upload Updated Package" button. Choose the =.zip=
+file exported by the compilation script, press upload, and the package
+will be updated.
