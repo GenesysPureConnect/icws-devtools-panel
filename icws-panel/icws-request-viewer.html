@@ -1,97 +1,105 @@
 <div class="icws-request-viewer">
+  <link rel="stylesheet" href="style/icws-request-viewer.css">
 
-    <h1>Request</h1>
-    <table>
+  <dl class="detail-list">
+    <dt style="width: 50%; vertical-align: top">
+      <h1>Request</h1>
+      <table class="request-grid">
         <tbody>
-            <tr>
-                <th>Verb</th>
-                <td>{{ request.verb }}</td>
-            </tr>
-            <tr>
-                <th>URL</th>
-                <td>{{ request.shortUrl }}</td>
-            </tr>
-            <tr>
-                <th>Timeout (ms)</th>
-                <td>{{ request.timeout }}</td>
-            </tr>
-            <tr>
-                <th>URL Template Parameters</th>
-                <td><pre icws-json-pretty-print="request.params.template"></pre></td>
-            </tr>
-            <tr>
-                <th>Header Parameters</th>
-                <td><pre icws-json-pretty-print="request.params.header"></pre></td>
-            </tr>
-            <tr>
-                <th>Query String Parameters</th>
-                <td><pre icws-json-pretty-print="request.params.query"></pre></td>
-            </tr>
-            <tr ng-show="request.params.content">
-                <th>Body</th>
-                <td><pre icws-json-pretty-print="request.params.content"></pre></td>
-            </tr>
-            <tr>
-                <th>Requested at</th>
-                <td>{{ request.requestTimestamp | date:'HH:mm:ss.sss' }}</td>
-            </tr>
-            <tr>
-                <th>Header Size</th>
-                <td>{{ request.requestSize.headers }}</td>
-            </tr>
-            <tr>
-                <th>Body Size</th>
-                <td>{{ request.requestSize.body }}</td>
-            </tr>
+          <tr>
+            <th>Verb</th>
+            <td>{{ request.verb }}</td>
+          </tr>
+          <tr>
+            <th>URL</th>
+            <td>{{ request.shortUrl }}</td>
+          </tr>
+          <tr>
+            <th>Timeout (ms)</th>
+            <td>{{ request.timeout }}</td>
+          </tr>
+          <tr>
+            <th>URL Template Parameters</th>
+            <td><pre icws-json-pretty-print="request.params.template"></pre></td>
+          </tr>
+          <tr>
+            <th>Header Parameters</th>
+            <td><pre icws-json-pretty-print="request.params.header"></pre></td>
+          </tr>
+          <tr>
+            <th>Query String Parameters</th>
+            <td><pre icws-json-pretty-print="request.params.query"></pre></td>
+          </tr>
+          <tr ng-show="request.params.content">
+            <th>Body</th>
+            <td><pre icws-json-pretty-print="request.params.content"></pre></td>
+          </tr>
+          <tr>
+            <th>Requested at</th>
+            <td>{{ request.requestTimestamp | date:'HH:mm:ss.sss' }}</td>
+          </tr>
+          <tr>
+            <th>Header Size</th>
+            <td>{{ request.requestSize.headers }}</td>
+          </tr>
+          <tr>
+            <th>Body Size</th>
+            <td>{{ request.requestSize.body }}</td>
+          </tr>
         </tbody>
-    </table>
+      </table>
+    </dt>
 
-    <h1 ng-show="request.responseTimestamp">Response</h1>
-    <table ng-show="request.responseTimestamp">
-        <tbody>
-            <tr>
-                <th>Status Code</th>
-                <td>{{ request.status }}</td>
-            </tr>
-            <tr ng-show="request.responseContent">
-                <th>Body</th>
-                <td><pre icws-json-pretty-print="request.responseContent"></pre></td>
-            </tr>
-            <tr>
-                <th>Responded at</th>
-                <td>{{ request.responseTimestamp | date:'HH:mm:ss.sss' }}</td>
-            </tr>
-            <tr>
-                <th>Duration (ms)</th>
-                <td>{{ request.duration }}</td>
-            </tr>
-            <tr>
-                <th>Result</th>
-                <td>{{ request.result }}</td>
-            </tr>
-            <tr>
-                <th>Header Size</th>
-                <td>{{ request.responseSize.headers }}</td>
-            </tr>
-            <tr>
-                <th>Body Size</th>
-                <td>{{ request.responseSize.body }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div id="vdivider"></div>
 
-    <h1>Details</h1>
-    <table>
+    <dd style="width: 50%; vertical-align: top">
+      <h1 ng-show="request.responseTimestamp">Response</h1>
+      <table ng-show="request.responseTimestamp" class="response-grid">
         <tbody>
-            <tr>
-                <th>Template URL</th>
-                <td>{{ request.urlTemplate }}</td>
-            </tr>
-            <tr>
-                <th>More Information</th>
-                <td><icws-doc-link entry="entry">Read the doc</icws-doc-link></td>
-            </tr>
+          <tr>
+            <th>Status Code</th>
+            <td>{{ request.status }}</td>
+          </tr>
+          <tr ng-show="request.responseContent">
+            <th>Body</th>
+            <td><pre icws-json-pretty-print="request.responseContent"></pre></td>
+          </tr>
+          <tr>
+            <th>Responded at</th>
+            <td>{{ request.responseTimestamp | date:'HH:mm:ss.sss' }}</td>
+          </tr>
+          <tr>
+            <th>Duration (ms)</th>
+            <td>{{ request.duration }}</td>
+          </tr>
+          <tr>
+            <th>Result</th>
+            <td>{{ request.result }}</td>
+          </tr>
+          <tr>
+            <th>Header Size</th>
+            <td>{{ request.responseSize.headers }}</td>
+          </tr>
+          <tr>
+            <th>Body Size</th>
+            <td>{{ request.responseSize.body }}</td>
+          </tr>
         </tbody>
-    </table>
-    
+      </table>
+    </dd>
+  </dl>
+
+  <h1>Details</h1>
+  <table class="details-grid">
+    <tbody>
+      <tr>
+        <th>Template URL</th>
+        <td>{{ request.urlTemplate }}</td>
+      </tr>
+      <tr>
+        <th>More Information</th>
+        <td><icws-doc-link entry="entry">Read the doc</icws-doc-link></td>
+      </tr>
+    </tbody>
+  </table>
 </div>

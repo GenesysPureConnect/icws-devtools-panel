@@ -1,6 +1,6 @@
 {
     "name": "ICWS Panel",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "manifest_version": 2,
     "description": "Devtools panel for ICWS development",
     "devtools_page": "devtools.html",
@@ -11,7 +11,15 @@
     "content_scripts": [
         {
             "js": ["js/content.js"],
-            "matches": ["*://localhost/*", "*://127.0.0.1/*", "*://*.inin.com/*", "*://*.ininlab.com/*"]
+            "matches": [
+                "*://localhost/*",
+                "*://127.0.0.1/*",
+                "*://*.inin.com/*",
+                "*://*.ininlab.com/*",
+                "*://*.genesys.com/*",
+                "*://*.qfun.com/*",
+                "*://*.dev2000.com/*"
+            ]
         }
     ],
     "icons": {
@@ -20,5 +28,14 @@
         "48": "icons/cheezburger-48.png",
         "128": "icons/cheezburger-128.png",
         "256": "icons/cheezburger-256.png"
-    }
+    },
+    "permissions": [
+        "*://localhost/*",
+        "*://127.0.0.1/*",
+        "*://*.inin.com/*",
+        "*://*.ininlab.com/*",
+        "*://*.genesys.com/*",
+        "*://*.qfun.com/*",
+        "*://*.dev2000.com/*"
+    ]
 }
