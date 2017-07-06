@@ -8,6 +8,8 @@
     <script src="vendor/js/angular.min.js"></script>
     <script src="vendor/js/angular-sanitize.min.js"></script>
     <script src="vendor/js/scrollglue.js"></script>
+    <script src="vendor/js/recursion-helper.js"></script>
+    <script src="vendor/js/json-formatter.js"></script>
 
     <script src="js/init.js"></script>
     <script src="js/icwsMessageTypeFilter.js"></script>
@@ -63,7 +65,6 @@
           <icws-session-info-viewer data="app.sessionData"></icws-session-info-viewer>
         </div>
       </div>
-
       <div class="split-view-contents split-view-contents-details">
         <div id="vdivider"></div>
         <div id="detail" class="tabbed-pane" ng-switch="app.selectedEntry.type">

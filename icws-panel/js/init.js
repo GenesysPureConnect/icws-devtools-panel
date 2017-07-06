@@ -1,1 +1,1 @@
-angular.module('IcwsPanel', ['ngSanitize', 'luegg.directives']);
+angular.module('IcwsPanel', ['ngSanitize', 'luegg.directives', 'jsonFormatter']);

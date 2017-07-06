@@ -1,4 +1,5 @@
 <div class="icws-message-viewer">
-    <h1>{{ message | icwsMessageType }}</h1>
-    <pre icws-json-pretty-print="message"></pre>
+  <link rel="stylesheet" href="vendor/style/json-formatter.css">
+  <h1>{{ message | icwsMessageType }}</h1>
+  <json-formatter json="message" open="1"></json-formatter>
 </div>

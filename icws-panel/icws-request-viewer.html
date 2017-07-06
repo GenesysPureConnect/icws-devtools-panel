@@ -1,5 +1,6 @@
 <div class="icws-request-viewer">
   <link rel="stylesheet" href="style/icws-request-viewer.css">
+  <link rel="stylesheet" href="vendor/style/json-formatter.css">
 
   <dl class="detail-list">
     <dt style="width: 50%; vertical-align: top">
@@ -20,19 +21,19 @@
           </tr>
           <tr>
             <th>URL Template Parameters</th>
-            <td><pre icws-json-pretty-print="request.params.template"></pre></td>
+            <td><json-formatter json="request.params.template" open="1"></json-formatter></td>
           </tr>
           <tr>
             <th>Header Parameters</th>
-            <td><pre icws-json-pretty-print="request.params.header"></pre></td>
+            <td><json-formatter json="request.params.header" open="1"></json-formatter></td>
           </tr>
           <tr>
             <th>Query String Parameters</th>
-            <td><pre icws-json-pretty-print="request.params.query"></pre></td>
+            <td><json-formatter json="request.params.query" open="1"></json-formatter></td>
           </tr>
           <tr ng-show="request.params.content">
             <th>Body</th>
-            <td><pre icws-json-pretty-print="request.params.content"></pre></td>
+            <td><json-formatter json="request.params.content" open="1"></json-formatter></td>
           </tr>
           <tr>
             <th>Requested at</th>
@@ -62,7 +63,7 @@
           </tr>
           <tr ng-show="request.responseContent">
             <th>Body</th>
-            <td><pre icws-json-pretty-print="request.responseContent"></pre></td>
+            <td><json-formatter json="request.responseContent" open="1"></json-formatter></td>
           </tr>
           <tr>
             <th>Responded at</th>
