@@ -22,4 +22,5 @@ log in with the =genesys.icws@gmail.com= account. There should be a
 listing for the extension, including an Edit link. Click the link,
 then click on the "Upload Updated Package" button. Choose the =.zip=
 file exported by the compilation script, press upload, and the package
-will be updated.
+will be updated. Scroll to the bottom, press publish, and the updates
+will be available on the chrome store.
