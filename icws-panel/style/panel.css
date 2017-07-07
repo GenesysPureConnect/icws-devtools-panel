@@ -151,6 +151,10 @@ table#communication-entries td {
     white-space: nowrap;
 }
 
+#detail {
+    padding-left: 2em;
+}
+
 th, td {
     text-align: left;
 }

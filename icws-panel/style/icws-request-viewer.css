@@ -1,39 +1,7 @@
-dt, dd, dl {
-    margin:0;
-    padding:0;
-    border-spacing:0;
-}
-
-dl {
-    display:table;
-    width:100%;
-}
-
-dt, dd {
-    width:100%;
-    display:block;
-}
-
-@media only screen and (min-width:1051px) {
-    dt, dd {
-        width:50%;
-        float:left;
-    }
-}
-
 .request-grid tr:nth-child(even):not(.filler), .response-grid tr:nth-child(even):not(.filler) {
     background: #F0F0F0;
 }
 
 .request-grid, .response-grid {
     border-spacing: 0px;
-}
-
-#vdivider {
-    background: #fff;
-    border-right: 1px solid rgb(179, 179, 179);
-    width: 1px;
-    float: left;
-    height: 100%;
-    cursor: default;
 }
