@@ -7,12 +7,14 @@ and annoyances involved in digging through the network traffic logs by
 bringing the relevant information up to the forefront and removing
 irrelevant clutter.
 ** Build & Upload Instructions
-1. Either run =make= in the root directory, or just zip the
+1. Increase the version number in =manifest.json=. *IF YOU*
+   *DON'T DO THIS THE APP WON'T AUTO-UPDATE FOR USERS*.
+2. Either run =make= in the root directory, or just zip the
    =./icws-panel= folder to generate the archive file.
-2. Go to the [[https://chrome.google.com/webstore/developer/dashboard][chrome developer dashboard]] and log in with the
+3. Go to the [[https://chrome.google.com/webstore/developer/dashboard][chrome developer dashboard]] and log in with the
    =genesys.icws@gmail.com= account.
-3. There should be a listing for the extension, including an "Edit"
+4. There should be a listing for the extension, including an "Edit"
    link. Click the link, then click on the "Upload Updated Package" button.
-4. Choose the =.zip= file you made earlier and press "Upload".
-5. Scroll to the bottom, press "Publish", and the updates will be
+5. Choose the =.zip= file you made earlier and press "Upload".
+6. Scroll to the bottom, press "Publish", and the updates will be
    available on the chrome store. Congratulations!
