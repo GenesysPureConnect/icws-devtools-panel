@@ -1,6 +1,6 @@
 {
     "name": "ICWS Panel",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "manifest_version": 2,
     "description": "Devtools panel for ICWS development",
     "devtools_page": "devtools.html",
@@ -23,11 +23,10 @@
         }
     ],
     "icons": {
-        "16": "icons/cheezburger-16.png",
-        "32": "icons/cheezburger-32.png",
-        "48": "icons/cheezburger-48.png",
-        "128": "icons/cheezburger-128.png",
-        "256": "icons/cheezburger-256.png"
+        "16": "icons/inin-16.png",
+        "48": "icons/inin-48.png",
+        "128": "icons/inin-128.png",
+        "256": "icons/inin-256.png"
     },
     "permissions": [
         "*://localhost/*",
