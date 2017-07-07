@@ -6,21 +6,13 @@ client. This extension attempts to alleviate some of the difficulties
 and annoyances involved in digging through the network traffic logs by
 bringing the relevant information up to the forefront and removing
 irrelevant clutter.
-** Build Instructions
-The node script =package-extension.js= is our compilation script. It
-requires the packages [[https://github.com/oncletom/crx][crx]] and [[https://github.com/archiverjs/node-archiver][archiver]] to be installed (simply =npm=
-=install crx= and =archiver=). Also, please remember to update the
-version number in =manifest.json=. It's kind of annoying, but it's
-also not that important.
-
-Running this script will generate a =.crx= and a =.zip=. The =.crx= is
-the packaged binary, while the =.zip= is the compressed source
-directory that will be uploaded to the Google store page.
-** Upload Instructions
-To upload an updated version, go to the [[https://chrome.google.com/webstore/developer/dashboard][chrome developer dashboard]] and
-log in with the =genesys.icws@gmail.com= account. There should be a
-listing for the extension, including an Edit link. Click the link,
-then click on the "Upload Updated Package" button. Choose the =.zip=
-file exported by the compilation script, press upload, and the package
-will be updated. Scroll to the bottom, press publish, and the updates
-will be available on the chrome store.
+** Build & Upload Instructions
+1. Either run =make= in the root directory, or just zip the
+   =./icws-panel= folder to generate the archive file.
+2. Go to the [[https://chrome.google.com/webstore/developer/dashboard][chrome developer dashboard]] and log in with the
+   =genesys.icws@gmail.com= account.
+3. There should be a listing for the extension, including an "Edit"
+   link. Click the link, then click on the "Upload Updated Package" button.
+4. Choose the =.zip= file you made earlier and press "Upload".
+5. Scroll to the bottom, press "Publish", and the updates will be
+   available on the chrome store. Congratulations!
