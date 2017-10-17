@@ -11,8 +11,7 @@ irrelevant clutter.
    *DON'T DO THIS THE APP WON'T AUTO-UPDATE FOR USERS*.
 2. Either run =make= in the root directory, or just zip the
    =./icws-panel= folder to generate the archive file.
-3. Go to the [[https://chrome.google.com/webstore/developer/dashboard][chrome developer dashboard]] and log in with the
-   =genesys.icws@gmail.com= account.
+3. Go to the [[https://chrome.google.com/webstore/developer/dashboard][chrome developer dashboard]] and log in.
 4. There should be a listing for the extension, including an "Edit"
    link. Click the link, then click on the "Upload Updated Package" button.
 5. Choose the =.zip= file you made earlier and press "Upload".

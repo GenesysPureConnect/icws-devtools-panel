@@ -1,6 +1,8 @@
 const ICWS_JS = 'icwsjs';
 const initMessageType = 'icws-chrome-devtools-panel-init';
 
+document.body.setAttribute('data-icwspanel', '');
+
 function __postMessageToIcwsJS(type, content) {
     window.postMessage({ type: type, source: chrome.runtime.id, target: ICWS_JS, timestamp: Date.now(), content: content }, document.origin);
 }
