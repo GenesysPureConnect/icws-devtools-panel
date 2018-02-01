@@ -114,8 +114,8 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
     }
 
     function collectResponseData(resp) {
-        ctrl.sessionData.responseSize.headers += resp.size.headers;
-        ctrl.sessionData.responseSize.body += resp.size.body;
+        ctrl.sessionData.responseSize.headers += isNaN(resp.size.headers) ? 0 : resp.size.headers;
+        ctrl.sessionData.responseSize.body += isNaN(resp.size.body) ? 0 : resp.size.headers;
     }
 
     function handleResponse(message) {
@@ -192,8 +192,8 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
             }
 
             // Update the size totals
-            ctrl.sessionData.requestSize.headers += request.headersSize;
-            ctrl.sessionData.requestSize.body += request.bodySize;
+            ctrl.sessionData.requestSize.headers += isNaN(request.headersSize) ? 0 : request.headersSize;
+            ctrl.sessionData.requestSize.body += isNaN(request.bodySize) ? 0 : request.bodySize;
         }
         $scope.$digest();
     });
