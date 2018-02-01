@@ -49,6 +49,19 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
 
     this.clear = () => {
         this.communicationEntries = [];
+
+        this.sessionData = {
+            apiCallCount: 0,
+            subscriptionCount: 0,
+            responseSize: {
+                headers: 0,
+                body: 0
+            },
+            requestSize: {
+                headers: 0,
+                body: 0
+            }
+        };
     };
 
     function getShortUrl(tmpl, params) {
@@ -90,7 +103,9 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
         if (/\/icws\/[^\/]+\/messaging\/subscriptions\//.test(entry.resource)) {
             // TODO: right now this only tracks subscriptions since the panel has been open
             if (entry.content.verb === "DELETE") {
-                ctrl.sessionData.subscriptionCount--;
+                if (ctrl.sessionData.subscriptionCount) {
+                    ctrl.sessionData.subscriptionCount--;
+                }
             } else {
                 ctrl.sessionData.subscriptionCount++;
             }
@@ -132,7 +147,7 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
             collectResponseData(response);
         }
     }
-    
+
     // Since Chrome 54 the themeName is accessible, for earlier versions we must
     // assume the default theme is being used.
     // https://bugs.chromium.org/p/chromium/issues/detail?id=608869
