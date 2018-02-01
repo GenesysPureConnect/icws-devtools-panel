@@ -2,6 +2,10 @@
     background: #F0F0F0;
 }
 
+.dark .request-grid tr:nth-child(even):not(.filler), .dark .response-grid tr:nth-child(even):not(.filler) {
+    background: #424242;
+}
+
 .request-grid, .response-grid {
     border-spacing: 0px;
 }

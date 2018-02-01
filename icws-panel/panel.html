@@ -2,6 +2,7 @@
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href="style/panel.css">
+    <link rel="stylesheet" type="text/css" href="style/dark-theme.css">
     <link rel="stylesheet" type="text/css" href="style/icws-json-pretty-print.css">
 
     <!-- 3rd party -->
@@ -68,8 +69,8 @@
       <div class="split-view-contents split-view-contents-details">
         <div id="vdivider"></div>
         <div id="detail" class="tabbed-pane" ng-switch="app.selectedEntry.type">
-          <icws-message-viewer ng-switch-when="message" message="app.selectedEntry.content"></icws-message-viewer>
-          <icws-request-viewer ng-switch-when="request" entry="app.selectedEntry" request="app.selectedEntry.content"></icws-request-viewer>
+          <icws-message-viewer ng-switch-when="message" message="app.selectedEntry.content" dark="app.useDarkTheme"></icws-message-viewer>
+          <icws-request-viewer ng-switch-when="request" entry="app.selectedEntry" request="app.selectedEntry.content" dark="app.useDarkTheme"></icws-request-viewer>
         </div>
       </div>
     </div>

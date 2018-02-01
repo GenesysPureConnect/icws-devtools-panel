@@ -129,6 +129,13 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
             collectResponseData(response);
         }
     }
+    
+    // Since Chrome 54 the themeName is accessible, for earlier versions we must
+    // assume the default theme is being used.
+    // https://bugs.chromium.org/p/chromium/issues/detail?id=608869
+    var theme = chrome.devtools.panels.themeName || "default";
+    this.useDarkTheme = theme === 'dark';
+    document.body.classList.add(theme);
 
     // Create a connection to the background page
     var backgroundPageConnection = chrome.runtime.connect({
