@@ -8,7 +8,8 @@
             replace: true,
             scope: {
                 request: '=',
-                entry: '='
+                entry: '=',
+                dark: '='
             }
         };
     }]);

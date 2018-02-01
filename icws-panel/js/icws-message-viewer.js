@@ -7,7 +7,8 @@
             templateUrl: 'templates/icws-message-viewer.html',
             replace: true,
             scope: {
-                message: '='
+                message: '=',
+                dark: '='
             }
         };
     }]);

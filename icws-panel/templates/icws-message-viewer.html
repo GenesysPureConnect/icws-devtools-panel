@@ -1,5 +1,5 @@
 <div class="icws-message-viewer">
   <link rel="stylesheet" href="vendor/style/json-formatter.css">
   <h1>{{ message | icwsMessageType }}</h1>
-  <json-formatter json="message" open="1"></json-formatter>
+  <json-formatter json="message" open="1" ng-class="{ 'json-formatter-dark': dark }"></json-formatter>
 </div>
