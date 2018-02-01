@@ -24,22 +24,23 @@
   <body class="icws-panel" ng-app="IcwsPanel" ng-csp>
     <div class="split-view" ng-controller="AppCtrl as app">
       <div class="split-view-contents split-view-contents-requests">
-        <div class="data-grid data-grid-requests">
-          <div class="toolbar">
+        <div class="messages-menu flex-container">
+            <input ng-model="filterString" class="search-filter" placeholder="Filter..">
             <button ng-click="app.clear()">
               Clear
             </button>
-          </div>
-          <table class="header">
+        </div>
+        <div class="data-grid data-grid-requests flex-container">
+          <table class="header flex-container">
             <tr>
               <th class="method">Type</th>
               <th class="name">Name</th>
               <th class="timestamp">Timestamp</th>
             </tr>
           </table>
-          <div class="data-container" scroll-glue>
+          <div class="data-container flex-container">
             <table id="communication-entries">
-              <tr ng-repeat="entry in app.communicationEntries track by $index"
+              <tr ng-repeat="entry in app.displayedEntries track by $index"
                   ng-click="app.selectEntry($index)"
                   ng-class="{ selected: ($index === app.selectedEntryIndex), highlight: entry.highlight }"
                   class="communication-entry communication-entry-{{entry.type}}">
@@ -67,8 +68,8 @@
             </table>
           </div>
         </div>
-        <div id="info">
-          <icws-session-info-viewer data="app.sessionData"></icws-session-info-viewer>
+        <div class="flex-container" id="info">
+          <icws-session-info-viewer class="flex-container" data="app.sessionData"></icws-session-info-viewer>
         </div>
       </div>
       <div class="split-view-contents split-view-contents-details">

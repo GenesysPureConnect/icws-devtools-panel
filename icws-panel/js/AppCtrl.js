@@ -5,6 +5,31 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
     this.communicationEntries = [];
     this.selectedEntryIndex = -1;
     this.selectedEntry = undefined;
+    this.displayedEntries = [];
+    $scope.filter = '';
+
+
+    this.selectEntry = (entryIndex) => {
+        if (entryIndex < 0 || entryIndex >= this.displayedEntries.length) {
+            entryIndex = -1;
+        }
+        this.selectedEntryIndex = entryIndex;
+        this.selectedEntry = entryIndex < 0 ? undefined : this.displayedEntries[entryIndex];
+        highlightRelatedEntries(entryIndex);
+    };
+
+    function highlightRelatedEntries(entryIndex) {
+        const referenceEntry = ctrl.displayedEntries[entryIndex];
+
+        if (!referenceEntry) {
+            ctrl.displayedEntries.forEach(entry => { entry.highlight = false; });
+            return;
+        }
+
+        for (let entry of ctrl.displayedEntries) {
+            entry.highlight = areRelatedEntries(entry, referenceEntry);
+        }
+    }
 
     function areRelatedEntries(entry1, entry2) {
         if (entry1 === entry2) {
@@ -26,24 +51,24 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
     }
 
     function highlightRelatedEntries(entryIndex) {
-        const referenceEntry = ctrl.communicationEntries[entryIndex];
+        const referenceEntry = ctrl.displayedEntries[entryIndex];
 
         if (!referenceEntry) {
-            ctrl.communicationEntries.forEach(entry => { entry.highlight = false; });
+            ctrl.displayedEntries.forEach(entry => { entry.highlight = false; });
             return;
         }
 
-        for (let entry of ctrl.communicationEntries) {
+        for (let entry of ctrl.displayedEntries) {
             entry.highlight = areRelatedEntries(entry, referenceEntry);
         }
     }
 
     this.selectEntry = (entryIndex) => {
-        if (entryIndex < 0 || entryIndex >= this.communicationEntries.length) {
+        if (entryIndex < 0 || entryIndex >= this.displayedEntries.length) {
             entryIndex = -1;
         }
         this.selectedEntryIndex = entryIndex;
-        this.selectedEntry = entryIndex < 0 ? undefined : this.communicationEntries[entryIndex];
+        this.selectedEntry = entryIndex < 0 ? undefined : this.displayedEntries[entryIndex];
         highlightRelatedEntries(entryIndex);
     };
 
@@ -75,6 +100,19 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
             resource: message.content.__type,
             content: message.content
         });
+        if($scope.filter == ''){
+            ctrl.displayedEntries = ctrl.communicationEntries;
+        }
+        if($scope.filter.length > 0){
+            if(message.resource.includes($scope.filterString)){
+                ctrl.displayedEntries.push({
+                    type: 'message',
+                    timestamp: new Date(message.timestamp),
+                    resource: message.content.__type,
+                    content: message.content
+                });
+            }
+        }
     }
 
     function collectRequestData(entry) {
@@ -110,6 +148,14 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
         request.requestTimestamp = entry.timestamp;
         ctrl.communicationEntries.push(entry);
         collectRequestData(entry);
+        if($scope.filter == ''){
+            ctrl.displayedEntries = ctrl.communicationEntries;
+        }
+        if($scope.filter.length > 0){
+            if(entry.resource.includes($scope.filterString)){
+                ctrl.displayedEntries.push(entry);
+            }
+        }
     }
 
     function collectResponseData(resp) {
@@ -139,6 +185,24 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
     var theme = chrome.devtools.panels.themeName || "default";
     this.useDarkTheme = theme === 'dark';
     document.body.classList.add(theme);
+
+    function updateFilter(){
+        ctrl.communicationEntries.forEach(function(entry){
+            if(entry.resource.toUpperCase().includes($scope.filterString.toUpperCase())){
+                ctrl.displayedEntries.push(entry);
+            }
+        });
+    }
+
+    $scope.$watch('filterString', function(){
+        if($scope.filterString.length > 0){
+            ctrl.displayedEntries = [];
+            updateFilter();
+        }
+        else{
+            ctrl.displayedEntries = ctrl.communicationEntries;
+        }                
+    });
 
     // Create a connection to the background page
     let backgroundPageConnection = chrome.runtime.connect({
