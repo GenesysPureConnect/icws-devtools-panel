@@ -2,10 +2,9 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
     let ctrl = this;
 
     this.requestEntries = {};
-    this.communicationEntries = [];
+    this.displayedEntries = this.communicationEntries = [];
     this.selectedEntryIndex = -1;
     this.selectedEntry = undefined;
-    this.displayedEntries = [];
     $scope.filter = '';
 
 
@@ -113,10 +112,7 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
             resource: message.content.__type,
             content: message.content
         });
-        if($scope.filter == ''){
-            ctrl.displayedEntries = ctrl.communicationEntries;
-        }
-        if($scope.filter.length > 0){
+        if($scope.filterString.length > 0){
             if(message.resource.includes($scope.filterString)){
                 ctrl.displayedEntries.push({
                     type: 'message',
@@ -125,6 +121,9 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
                     content: message.content
                 });
             }
+        }
+        else{
+            ctrl.displayedEntries = ctrl.communicationEntries;
         }
     }
 
@@ -163,13 +162,13 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
         request.requestTimestamp = entry.timestamp;
         ctrl.communicationEntries.push(entry);
         collectRequestData(entry);
-        if($scope.filter == ''){
-            ctrl.displayedEntries = ctrl.communicationEntries;
-        }
-        if($scope.filter.length > 0){
+        if($scope.filterString.length > 0){
             if(entry.resource.includes($scope.filterString)){
                 ctrl.displayedEntries.push(entry);
             }
+        }
+        else{
+            ctrl.displayedEntries = ctrl.communicationEntries;
         }
     }
 
@@ -194,6 +193,12 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
         }
     }
 
+    ctrl.filterSelected = () => {
+        if(ctrl.selectedEntry){
+            $scope.filterString = ctrl.selectedEntry.resource;
+        }
+    }
+
     // Since Chrome 54 the themeName is accessible, for earlier versions we must
     // assume the default theme is being used.
     // https://bugs.chromium.org/p/chromium/issues/detail?id=608869
@@ -210,7 +215,7 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
     }
 
     $scope.$watch('filterString', function(){
-        if($scope.filterString.length > 0){
+        if($scope.filterString && $scope.filterString.length > 0){
             ctrl.displayedEntries = [];
             updateFilter();
         }

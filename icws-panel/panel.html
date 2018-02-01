@@ -26,6 +26,9 @@
       <div class="split-view-contents split-view-contents-requests">
         <div class="messages-menu flex-container">
             <input ng-model="filterString" class="search-filter" placeholder="Filter..">
+            <button ng-click="app.filterSelected()">
+              Filter by Selected
+            </button>
             <button ng-click="app.clear()">
               Clear
             </button>
