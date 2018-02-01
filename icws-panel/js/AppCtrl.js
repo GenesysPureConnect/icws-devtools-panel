@@ -73,7 +73,7 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
     };
 
     this.clear = () => {
-        this.communicationEntries = [];
+        this.displayedEntries = this.communicationEntries = [];
 
         this.sessionData = {
             apiCallCount: 0,
