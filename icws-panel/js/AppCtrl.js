@@ -1,5 +1,5 @@
 angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function AppCtrl($scope, $window){
-    var ctrl = this;
+    let ctrl = this;
 
     this.requestEntries = {};
     this.communicationEntries = [];
@@ -14,6 +14,10 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
         this.selectedEntryIndex = entryIndex;
         this.selectedEntry = entryIndex < 0 ? undefined : this.communicationEntries[entryIndex];
         highlightRelatedEntries(entryIndex);
+    };
+
+    this.clear = () => {
+        this.communicationEntries = [];
     };
 
     function highlightRelatedEntries(entryIndex) {
@@ -49,15 +53,15 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
     }
 
     function getShortUrl(tmpl, params) {
-        var url = tmpl, hasQS = (url.indexOf('?') !== -1), tokens = url.match(/\{([^\}]+)\}/g) || [];
+        let url = tmpl, hasQS = (url.indexOf('?') !== -1), tokens = url.match(/\{([^\}]+)\}/g) || [];
             tokens.forEach(function(m){
-                var tkn = m.slice(1, -1);
+                let tkn = m.slice(1, -1);
                 if (tkn in params.template) {
                     url = url.replace(m, encodeURIComponent(params.template[tkn]));
                 }
             });
             Object.keys(params.query).forEach(function(q){
-                var value = params.query[q];
+                let value = params.query[q];
                 if (Array.isArray(value)) { value = value.join(','); }
                 url += (hasQS ? '&' : '?') + encodeURIComponent(q) + '=' + encodeURIComponent(value);
                 hasQS = true;
@@ -95,8 +99,8 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
     }
 
     function handleRequest(message) {
-        var request = message.content;
-        var entry = ctrl.requestEntries[request.correlationId] = {
+        let request = message.content;
+        let entry = ctrl.requestEntries[request.correlationId] = {
             type: 'request',
             timestamp: new Date(message.timestamp),
             resource: getShortUrl(request.urlTemplate, request.params),
@@ -115,9 +119,9 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
     }
 
     function handleResponse(message) {
-        var entry = ctrl.requestEntries[message.content.correlationId];
+        let entry = ctrl.requestEntries[message.content.correlationId];
         if (entry) {
-            var request = entry.content,
+            let request = entry.content,
                 response = message.content;
 
             request.status = response.status;
@@ -131,7 +135,7 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
     }
 
     // Create a connection to the background page
-    var backgroundPageConnection = chrome.runtime.connect({
+    let backgroundPageConnection = chrome.runtime.connect({
         name: 'icws-panel'
     });
 
@@ -178,7 +182,7 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
             const correlationQueryParams = request.headers.filter(q => { return q.name === 'X-ICWS-DevTools-CorrelationId' });
             if (correlationQueryParams.length > 0) {
                 correlationId = Number(correlationQueryParams[0].value);
-                var entry = ctrl.requestEntries[correlationId];
+                let entry = ctrl.requestEntries[correlationId];
                 if (entry) {
                     entry.content.requestSize = {
                         headers: request.headersSize,

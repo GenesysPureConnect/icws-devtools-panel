@@ -24,6 +24,11 @@
     <div class="split-view" ng-controller="AppCtrl as app">
       <div class="split-view-contents split-view-contents-requests">
         <div class="data-grid data-grid-requests">
+          <div class="toolbar">
+            <button ng-click="app.clear()">
+              Clear
+            </button>
+          </div>
           <table class="header">
             <tr>
               <th class="method">Type</th>
