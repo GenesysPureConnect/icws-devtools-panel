@@ -6,33 +6,6 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
     this.selectedEntryIndex = -1;
     this.selectedEntry = undefined;
 
-
-    this.selectEntry = (entryIndex) => {
-        if (entryIndex < 0 || entryIndex >= this.communicationEntries.length) {
-            entryIndex = -1;
-        }
-        this.selectedEntryIndex = entryIndex;
-        this.selectedEntry = entryIndex < 0 ? undefined : this.communicationEntries[entryIndex];
-        highlightRelatedEntries(entryIndex);
-    };
-
-    this.clear = () => {
-        this.communicationEntries = [];
-    };
-
-    function highlightRelatedEntries(entryIndex) {
-        const referenceEntry = ctrl.communicationEntries[entryIndex];
-
-        if (!referenceEntry) {
-            ctrl.communicationEntries.forEach(entry => { entry.highlight = false; });
-            return;
-        }
-
-        for (let entry of ctrl.communicationEntries) {
-            entry.highlight = areRelatedEntries(entry, referenceEntry);
-        }
-    }
-
     function areRelatedEntries(entry1, entry2) {
         if (entry1 === entry2) {
             return true;
@@ -51,6 +24,32 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
 
         return false;
     }
+
+    function highlightRelatedEntries(entryIndex) {
+        const referenceEntry = ctrl.communicationEntries[entryIndex];
+
+        if (!referenceEntry) {
+            ctrl.communicationEntries.forEach(entry => { entry.highlight = false; });
+            return;
+        }
+
+        for (let entry of ctrl.communicationEntries) {
+            entry.highlight = areRelatedEntries(entry, referenceEntry);
+        }
+    }
+
+    this.selectEntry = (entryIndex) => {
+        if (entryIndex < 0 || entryIndex >= this.communicationEntries.length) {
+            entryIndex = -1;
+        }
+        this.selectedEntryIndex = entryIndex;
+        this.selectedEntry = entryIndex < 0 ? undefined : this.communicationEntries[entryIndex];
+        highlightRelatedEntries(entryIndex);
+    };
+
+    this.clear = () => {
+        this.communicationEntries = [];
+    };
 
     function getShortUrl(tmpl, params) {
         let url = tmpl, hasQS = (url.indexOf('?') !== -1), tokens = url.match(/\{([^\}]+)\}/g) || [];
