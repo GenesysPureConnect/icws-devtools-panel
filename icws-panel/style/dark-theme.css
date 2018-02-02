@@ -5,7 +5,7 @@
 
 body.icws-panel.dark {
     background: #2a2a2a;
-    color: #ffffff;
+    color: rgb(213, 213, 213);
 }
 
 .dark .data-grid table th {
@@ -104,5 +104,21 @@ body.icws-panel.dark {
 
 .dark table#communication-entries tr.highlight {
     background: #FAFAD2;
-    color: black;    
+    color: black;
+}
+
+body.dark::-webkit-scrollbar, body.dark div::-webkit-scrollbar {
+    width: 1em;
+    height: 1em;
+}
+
+body.dark::-webkit-scrollbar-track, body.dark div::-webkit-scrollbar-track,
+body.dark::-webkit-scrollbar-corner,body.dark div::-webkit-scrollbar-corner {
+    border: 1px solid #333;
+    background-color: #242424;
+}
+
+body.dark::-webkit-scrollbar-thumb,body.dark div::-webkit-scrollbar-thumb {
+    background-color: #333;
+    border: 1px solid #4a4a4a;
 }
