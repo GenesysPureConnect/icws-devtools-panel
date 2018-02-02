@@ -2,6 +2,7 @@
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href="style/panel.css">
+    <link rel="stylesheet" type="text/css" href="style/dark-theme.css">
     <link rel="stylesheet" type="text/css" href="style/icws-json-pretty-print.css">
 
     <!-- 3rd party -->
@@ -23,17 +24,26 @@
   <body class="icws-panel" ng-app="IcwsPanel" ng-csp>
     <div class="split-view" ng-controller="AppCtrl as app">
       <div class="split-view-contents split-view-contents-requests">
-        <div class="data-grid data-grid-requests">
-          <table class="header">
+        <div class="messages-menu flex-container">
+            <input ng-model="filterString" class="search-filter" placeholder="Filter..">
+            <button ng-click="app.filterSelected()">
+              Filter by Selected
+            </button>
+            <button ng-click="app.clear()">
+              Clear
+            </button>
+        </div>
+        <div class="data-grid data-grid-requests flex-container">
+          <table class="header flex-container">
             <tr>
               <th class="method">Type</th>
               <th class="name">Name</th>
               <th class="timestamp">Timestamp</th>
             </tr>
           </table>
-          <div class="data-container" scroll-glue>
+          <div class="data-container flex-container">
             <table id="communication-entries">
-              <tr ng-repeat="entry in app.communicationEntries track by $index"
+              <tr ng-repeat="entry in app.displayedEntries track by $index"
                   ng-click="app.selectEntry($index)"
                   ng-class="{ selected: ($index === app.selectedEntryIndex), highlight: entry.highlight }"
                   class="communication-entry communication-entry-{{entry.type}}">
@@ -61,15 +71,15 @@
             </table>
           </div>
         </div>
-        <div id="info">
-          <icws-session-info-viewer data="app.sessionData"></icws-session-info-viewer>
+        <div class="flex-container" id="info">
+          <icws-session-info-viewer class="flex-container" data="app.sessionData"></icws-session-info-viewer>
         </div>
       </div>
       <div class="split-view-contents split-view-contents-details">
         <div id="vdivider"></div>
         <div id="detail" class="tabbed-pane" ng-switch="app.selectedEntry.type">
-          <icws-message-viewer ng-switch-when="message" message="app.selectedEntry.content"></icws-message-viewer>
-          <icws-request-viewer ng-switch-when="request" entry="app.selectedEntry" request="app.selectedEntry.content"></icws-request-viewer>
+          <icws-message-viewer ng-switch-when="message" message="app.selectedEntry.content" dark="app.useDarkTheme"></icws-message-viewer>
+          <icws-request-viewer ng-switch-when="request" entry="app.selectedEntry" request="app.selectedEntry.content" dark="app.useDarkTheme"></icws-request-viewer>
         </div>
       </div>
     </div>

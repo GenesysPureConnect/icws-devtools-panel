@@ -1,30 +1,31 @@
 angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function AppCtrl($scope, $window){
-    var ctrl = this;
+    let ctrl = this;
 
     this.requestEntries = {};
-    this.communicationEntries = [];
+    this.displayedEntries = this.communicationEntries = [];
     this.selectedEntryIndex = -1;
     this.selectedEntry = undefined;
+    $scope.filter = '';
 
 
     this.selectEntry = (entryIndex) => {
-        if (entryIndex < 0 || entryIndex >= this.communicationEntries.length) {
+        if (entryIndex < 0 || entryIndex >= this.displayedEntries.length) {
             entryIndex = -1;
         }
         this.selectedEntryIndex = entryIndex;
-        this.selectedEntry = entryIndex < 0 ? undefined : this.communicationEntries[entryIndex];
+        this.selectedEntry = entryIndex < 0 ? undefined : this.displayedEntries[entryIndex];
         highlightRelatedEntries(entryIndex);
     };
 
     function highlightRelatedEntries(entryIndex) {
-        const referenceEntry = ctrl.communicationEntries[entryIndex];
+        const referenceEntry = ctrl.displayedEntries[entryIndex];
 
         if (!referenceEntry) {
-            ctrl.communicationEntries.forEach(entry => { entry.highlight = false; });
+            ctrl.displayedEntries.forEach(entry => { entry.highlight = false; });
             return;
         }
 
-        for (let entry of ctrl.communicationEntries) {
+        for (let entry of ctrl.displayedEntries) {
             entry.highlight = areRelatedEntries(entry, referenceEntry);
         }
     }
@@ -48,16 +49,55 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
         return false;
     }
 
+    function highlightRelatedEntries(entryIndex) {
+        const referenceEntry = ctrl.displayedEntries[entryIndex];
+
+        if (!referenceEntry) {
+            ctrl.displayedEntries.forEach(entry => { entry.highlight = false; });
+            return;
+        }
+
+        for (let entry of ctrl.displayedEntries) {
+            entry.highlight = areRelatedEntries(entry, referenceEntry);
+        }
+    }
+
+    this.selectEntry = (entryIndex) => {
+        if (entryIndex < 0 || entryIndex >= this.displayedEntries.length) {
+            entryIndex = -1;
+        }
+        this.selectedEntryIndex = entryIndex;
+        this.selectedEntry = entryIndex < 0 ? undefined : this.displayedEntries[entryIndex];
+        highlightRelatedEntries(entryIndex);
+    };
+
+    this.clear = () => {
+        this.displayedEntries = this.communicationEntries = [];
+
+        this.sessionData = {
+            apiCallCount: 0,
+            subscriptionCount: 0,
+            responseSize: {
+                headers: 0,
+                body: 0
+            },
+            requestSize: {
+                headers: 0,
+                body: 0
+            }
+        };
+    };
+
     function getShortUrl(tmpl, params) {
-        var url = tmpl, hasQS = (url.indexOf('?') !== -1), tokens = url.match(/\{([^\}]+)\}/g) || [];
+        let url = tmpl, hasQS = (url.indexOf('?') !== -1), tokens = url.match(/\{([^\}]+)\}/g) || [];
             tokens.forEach(function(m){
-                var tkn = m.slice(1, -1);
+                let tkn = m.slice(1, -1);
                 if (tkn in params.template) {
                     url = url.replace(m, encodeURIComponent(params.template[tkn]));
                 }
             });
             Object.keys(params.query).forEach(function(q){
-                var value = params.query[q];
+                let value = params.query[q];
                 if (Array.isArray(value)) { value = value.join(','); }
                 url += (hasQS ? '&' : '?') + encodeURIComponent(q) + '=' + encodeURIComponent(value);
                 hasQS = true;
@@ -72,6 +112,19 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
             resource: message.content.__type,
             content: message.content
         });
+        if($scope.filterString.length > 0){
+            if(message.resource.includes($scope.filterString)){
+                ctrl.displayedEntries.push({
+                    type: 'message',
+                    timestamp: new Date(message.timestamp),
+                    resource: message.content.__type,
+                    content: message.content
+                });
+            }
+        }
+        else{
+            ctrl.displayedEntries = ctrl.communicationEntries;
+        }
     }
 
     function collectRequestData(entry) {
@@ -87,7 +140,9 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
         if (/\/icws\/[^\/]+\/messaging\/subscriptions\//.test(entry.resource)) {
             // TODO: right now this only tracks subscriptions since the panel has been open
             if (entry.content.verb === "DELETE") {
-                ctrl.sessionData.subscriptionCount--;
+                if (ctrl.sessionData.subscriptionCount) {
+                    ctrl.sessionData.subscriptionCount--;
+                }
             } else {
                 ctrl.sessionData.subscriptionCount++;
             }
@@ -95,8 +150,8 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
     }
 
     function handleRequest(message) {
-        var request = message.content;
-        var entry = ctrl.requestEntries[request.correlationId] = {
+        let request = message.content;
+        let entry = ctrl.requestEntries[request.correlationId] = {
             type: 'request',
             timestamp: new Date(message.timestamp),
             resource: getShortUrl(request.urlTemplate, request.params),
@@ -107,17 +162,25 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
         request.requestTimestamp = entry.timestamp;
         ctrl.communicationEntries.push(entry);
         collectRequestData(entry);
+        if($scope.filterString.length > 0){
+            if(entry.resource.includes($scope.filterString)){
+                ctrl.displayedEntries.push(entry);
+            }
+        }
+        else{
+            ctrl.displayedEntries = ctrl.communicationEntries;
+        }
     }
 
     function collectResponseData(resp) {
-        ctrl.sessionData.responseSize.headers += resp.size.headers;
-        ctrl.sessionData.responseSize.body += resp.size.body;
+        ctrl.sessionData.responseSize.headers += isNaN(parseInt(resp.size.headers)) ? 0 : resp.size.headers;
+        ctrl.sessionData.responseSize.body += isNaN(parseInt(resp.size.body)) ? 0 : resp.size.headers;
     }
 
     function handleResponse(message) {
-        var entry = ctrl.requestEntries[message.content.correlationId];
+        let entry = ctrl.requestEntries[message.content.correlationId];
         if (entry) {
-            var request = entry.content,
+            let request = entry.content,
                 response = message.content;
 
             request.status = response.status;
@@ -130,8 +193,39 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
         }
     }
 
+    ctrl.filterSelected = () => {
+        if(ctrl.selectedEntry){
+            $scope.filterString = ctrl.selectedEntry.resource;
+        }
+    }
+
+    // Since Chrome 54 the themeName is accessible, for earlier versions we must
+    // assume the default theme is being used.
+    // https://bugs.chromium.org/p/chromium/issues/detail?id=608869
+    var theme = chrome.devtools.panels.themeName || "default";
+    this.useDarkTheme = theme === 'dark';
+    document.body.classList.add(theme);
+
+    function updateFilter(){
+        ctrl.communicationEntries.forEach(function(entry){
+            if(entry.resource.toUpperCase().includes($scope.filterString.toUpperCase())){
+                ctrl.displayedEntries.push(entry);
+            }
+        });
+    }
+
+    $scope.$watch('filterString', function(){
+        if($scope.filterString && $scope.filterString.length > 0){
+            ctrl.displayedEntries = [];
+            updateFilter();
+        }
+        else{
+            ctrl.displayedEntries = ctrl.communicationEntries;
+        }                
+    });
+
     // Create a connection to the background page
-    var backgroundPageConnection = chrome.runtime.connect({
+    let backgroundPageConnection = chrome.runtime.connect({
         name: 'icws-panel'
     });
 
@@ -178,7 +272,7 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
             const correlationQueryParams = request.headers.filter(q => { return q.name === 'X-ICWS-DevTools-CorrelationId' });
             if (correlationQueryParams.length > 0) {
                 correlationId = Number(correlationQueryParams[0].value);
-                var entry = ctrl.requestEntries[correlationId];
+                let entry = ctrl.requestEntries[correlationId];
                 if (entry) {
                     entry.content.requestSize = {
                         headers: request.headersSize,
@@ -188,8 +282,8 @@ angular.module('IcwsPanel').controller('AppCtrl', ['$scope', '$window', function
             }
 
             // Update the size totals
-            ctrl.sessionData.requestSize.headers += request.headersSize;
-            ctrl.sessionData.requestSize.body += request.bodySize;
+            ctrl.sessionData.requestSize.headers += isNaN(parseInt(request.headersSize)) ? 0 : request.headersSize;
+            ctrl.sessionData.requestSize.body += isNaN(parseInt(request.bodySize)) ? 0 : request.bodySize;
         }
         $scope.$digest();
     });

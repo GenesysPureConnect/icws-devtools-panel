@@ -1,5 +1,19 @@
 <div class="icws-message-viewer">
   <link rel="stylesheet" href="vendor/style/json-formatter.css">
   <h1>{{ message | icwsMessageType }}</h1>
-  <json-formatter json="message" open="1"></json-formatter>
+  <label>View Raw JSON<input type="checkbox" ng-model="viewRawJson"/></label>
+  <json-formatter
+    json="message"
+    open="1"
+    ng-class="{ 'json-formatter-dark': dark }"
+    ng-if="!viewRawJson"></json-formatter>
+  <div
+    class="formatted-json"
+    ng-if="viewRawJson">
+    <button ng-click="copy()">Copy JSON</button>
+    <textarea
+      id="rawJson"
+      rows="50"
+      style="width:95%;">{{ stringified }}</textarea>
+  </div>
 </div>

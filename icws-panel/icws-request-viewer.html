@@ -3,7 +3,17 @@
   <link rel="stylesheet" href="vendor/style/json-formatter.css">
 
   <h1>Request</h1>
-  <table class="request-grid">
+  <label>View Raw JSON<input type="checkbox" ng-model="viewRawJsonRequest"/></label>
+  <div
+    class="formatted-json"
+    ng-if="viewRawJsonRequest">
+    <button ng-click="copyRequest()">Copy JSON</button>
+    <textarea
+      id="rawJsonRequest"
+      rows="25"
+      style="width:95%;">{{ stringifiedRequest }}</textarea>
+  </div>
+  <table class="request-grid" ng-if="!viewRawJsonRequest">
     <tbody>
       <tr>
         <th>Verb</th>
@@ -19,19 +29,19 @@
       </tr>
       <tr>
         <th>URL Template Parameters</th>
-        <td><json-formatter json="request.params.template" open="1"></json-formatter></td>
+        <td><json-formatter json="request.params.template" open="1" ng-class="{ 'json-formatter-dark': dark }"></json-formatter></td>
       </tr>
       <tr>
         <th>Header Parameters</th>
-        <td><json-formatter json="request.params.header" open="1"></json-formatter></td>
+        <td><json-formatter json="request.params.header" open="1" ng-class="{ 'json-formatter-dark': dark }"></json-formatter></td>
       </tr>
       <tr>
         <th>Query String Parameters</th>
-        <td><json-formatter json="request.params.query" open="1"></json-formatter></td>
+        <td><json-formatter json="request.params.query" open="1" ng-class="{ 'json-formatter-dark': dark }"></json-formatter></td>
       </tr>
       <tr ng-show="request.params.content">
         <th>Body</th>
-        <td><json-formatter json="request.params.content" open="1"></json-formatter></td>
+        <td><json-formatter json="request.params.content" open="1" ng-class="{ 'json-formatter-dark': dark }"></json-formatter></td>
       </tr>
       <tr>
         <th>Requested at</th>
@@ -49,7 +59,17 @@
   </table>
 
   <h1 ng-show="request.responseTimestamp">Response</h1>
-  <table ng-show="request.responseTimestamp" class="response-grid">
+  <label>View Raw JSON<input type="checkbox" ng-model="viewRawJsonResponse"/></label>
+  <div
+    class="formatted-json"
+    ng-if="viewRawJsonResponse">
+    <button ng-click="copyResponse()">Copy JSON</button>
+    <textarea
+      id="rawJsonResponse"
+      rows="25"
+      style="width:95%;">{{ stringifiedResponse }}</textarea>
+  </div>
+  <table ng-show="request.responseTimestamp" ng-if="!viewRawJsonResponse" class="response-grid">
     <tbody>
       <tr>
         <th>Status Code</th>
@@ -57,7 +77,7 @@
       </tr>
       <tr ng-show="request.responseContent">
         <th>Body</th>
-        <td><json-formatter json="request.responseContent" open="1"></json-formatter></td>
+        <td><json-formatter json="request.responseContent" open="1" ng-class="{ 'json-formatter-dark': dark }"></json-formatter></td>
       </tr>
       <tr>
         <th>Responded at</th>

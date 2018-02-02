@@ -1,0 +1,83 @@
+{
+    // Enforcing options (true means issue warnings)
+    "bitwise":        true,   // prohibit use of bitwise operators & | ^ since they're probably mistyped && or ||
+    "camelcase":      false,  // force all variable names to use either camelCase style or UPPER_CASE with underscores
+    "curly":          true,   // require curly braces around all blocks, even if the block is a single line
+    "eqeqeq":         true,   // require === and !== for all equality comparisons (no == or != allowed)
+    "es3":            false,  // code needs to adhere to ECMAScript 3 specification
+    "forin":          true,   // for..in constructs must check object membership via hasOwnProperty
+    "freeze":         false,  // prohibit overwriting prototypes of native objects such as Array, Date and so on
+    "immed":          true,   // immediately invoked function expressions must be wrapped in parens
+    "indent":         false,  // enforce tab width for code indentation
+    "latedef":        true,   // prohibit the use of a variable before it's defined
+    "newcap":         true,   // require constructor function names to be capitalized, warn if a capitalized function is called without new
+    "noarg":          true,   // prohibit use of arguments.caller and arguments.callee (disallowed in ES5 strict mode anyway)
+    "noempty":        false,  // warn about empty blocks in code (e.g. loops, conditionals)
+    "nonbsp":         false,  // warn about "non-breaking whitespace" characters
+    "nonew":          false,  // prohibit use of constructors for side effects (new Foo() without making an assignment)
+    "plusplus":       false,  // prohibit use of ++ and -- operators
+    "quotmark":       true,   // enforce consistent use of single and double quote in string literals
+    "undef":          true,   // prohibits the use of explicitly undeclared variables
+    "unused":         "vars", // warn about variables that are declared but never used (but ignore unused function args)
+    "strict":         false,   // require ES5 strict mode for all functions
+    "trailing":       false,  // prohibit trailing whitespace in code (could be source of bugs)
+
+    "maxparams":      false,  // maximum number of formal parameters allowed in a function definition
+    "maxdepth":       5,      // maximum indentation level allowed for code blocks (indicates poor code organization)
+    "maxstatements":  false,  // maximum number of statements allowed in a single function (make sure functions don't get too big)
+    "maxcomplexity":  false,  // maximum number of linearly independent code paths through a program (limit cyclomatic complexity)
+    "maxlen":         false,  // maximum line length
+
+    // Relaxing options (true means suppress warnings)
+    "asi":           false,   // allow automatic semicolon insertion
+    "boss":          false,   // allow assignments where comparisons are expected e.g. if (a = 10) {}
+    "debug":         false,   // allow debugger statements in source code
+    "eqnull":        true,    // allow == and != operators if one of the operands is null (for checking both null and undefined)
+    "esnext":        true,   // allow ES.next features like const keyword
+    "evil":          false,   // allow use of eval
+    "expr":          false,   // allow expressions where an assignment or function call is expected
+    "funcscope":     false,   // allow declaring variables inside of control structures that get used elsewhere
+    "gcl":           false,   // makes JSHint compatible with Google Closure Compiler
+    "globalstrict":  false,   // allow strict mode to be used globally (could break 3rd-party stuff)
+    "iterator":      false,   // allow use of __iterator__ property (not supported by all browsers)
+    "lastsemic":     false,   // allow semicolons to be omitted as long as it's not the last one on a one-line block
+    "laxbreak":      true,    // allow possible unsafe line breaks in code
+    "laxcomma":      false,   // allow comma-first coding style in expressions
+    "loopfunc":      false,   // allow functions to be declared inside loops (typically a mistake)
+    "maxerr":        50,      // the maximum amount of warnings JSHint will produce before giving up (default is 50)
+    "moz":           false,   // allow Mozilla JavaScript extensions
+    "multistr":      false,   // allow multi-line strings (risky because whitespace after the trailing \ breaks the string)
+    "notypeof":      false,   // suppress warnings about invalid typeof operator values
+    "proto":         false,   // allow use of the __proto__ property (deprecated and not supported in all browsers)
+    "scripturl":     false,   // allow use of javascript: URLs in code
+    "smarttabs":     false,   // allow use of mixed tabs and spaces if the spaces are just for alignment
+    "shadow":        false,   // allow variables to be shadowed (declared with same name in inner scope)
+    "sub":           true,    // allow using subscript (bracket) notation when dot notation would work (person['name'] vs. person.name)
+    "supernew":      false,   // allow unusual constructor syntax like "new function() {...}" or "new Object"
+    "validthis":     false,   // allow use of this inside non-constructor functions (this option can only be enabled in function scope)
+    "noyield":       false,   // suppress warnings about generator functions with no yield statement in them
+
+    // Environment options
+    "browser":       true,    // defines browser globals like "window" and "document"
+    "devel":         true,    // defines debugging globals like "alert" and "console"
+    "jquery":        true,    // defines jQuery and $ as globals
+    "nonstandard":   true,    // defines nonstandard (but widely used) functions like "escape"
+
+    // Legacy (JSLint) options
+    "nomen":         false,   // disallow dangling _ in variable names
+    "onevar":        false,   // disallow more than one var statement per function
+    "passfail":      false,   // make JSHint stop on the first error or warning
+    "white":         false,   // check source code against Douglas Crockford's JS coding style
+
+    // Expected globals
+    "predef": [
+        // RequireJS (AMD)
+        "define",
+        "require",
+        "requirejs",
+
+        // angular-mocks (it'd be nice if there was a way to only define this in files named *Spec.js
+        "module",
+        "inject"
+    ]
+}

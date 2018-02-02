@@ -1,0 +1,124 @@
+* {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body.icws-panel.dark {
+    background: #2a2a2a;
+    color: rgb(213, 213, 213);
+}
+
+.dark .data-grid table th {
+    background-image: url(../images/glossyHeader.png);
+    border-right: 1px solid rgb(179, 179, 179);
+    border-bottom: 1px solid rgb(179, 179, 179);
+}
+
+.dark .data-grid table td {
+    border-right: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.dark .data-grid-details table tr {
+    border-bottom: 1px solid #eee;
+}
+
+.dark .data-grid-details table a {
+    color: #0859C9;
+}
+
+.dark .data-grid-details table td {
+    border-right: 1px solid #eee;
+}
+
+.dark .data-grid-details table td.timestamp {
+    white-space: nowrap;
+}
+
+.dark .data-container table tr:nth-child(even):not(.filler) {
+    background: #424242;
+}
+
+.dark td.method, .dark td.format, .dark td.status, .dark td.view, .dark td.db, .dark td.other, .dark td.timestamp {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.dark .data-grid-details td:last-child {
+    background: black;
+}
+
+.dark table.header th {
+    background: -webkit-gradient(linear, left top, left bottom, from(#424242), to(#2a2a2a))
+}
+
+@media screen and (max-width: 1050px) {
+    .dark .split-view-contents-requests {
+        border-top: 1px solid rgb(179, 179, 179);
+    }
+
+    .dark #info {
+        border-top: 1px solid rgb(179, 179, 179);
+    }
+
+    .dark #hdivider {
+        background: #eee;
+        border-top: 1px solid #A3A3A3;
+    }
+}
+
+@media screen and (min-width: 1051px) {
+    .dark #info {
+        border-top: 1px solid rgb(179, 179, 179);
+    }
+
+    .dark .dark #vdivider {
+        background: #fff;
+        border-right: 1px solid rgb(179, 179, 179);
+    }
+}
+
+.dark .tabbed-pane-header {
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#424242), to(#2a2a2a));
+    border-bottom: 1px solid #A3A3A3;
+}
+
+.dark .tabbed-pane-header-tab {
+    color: #2E2E2E;
+    text-shadow: rgba(255, 255, 255, 0.5) 0 1px 0;
+}
+
+.dark .tabbed-pane-header-tab-title {
+    color: #2E2E2E;
+    text-shadow: rgba(255, 255, 255, 0.5) 0 1px 0;
+}
+
+.dark .tabbed-pane-header-tab.ui-tabs-active {
+    background-color: black;
+    border: 1px solid #A3A3A3;
+}
+
+.dark table#communication-entries tr.selected,
+.dark table#communication-entries tr.selected.highlight {
+    background: #3879D9;
+    color: black
+}
+
+.dark table#communication-entries tr.highlight {
+    background: #FAFAD2;
+    color: black;
+}
+
+body.dark::-webkit-scrollbar, body.dark div::-webkit-scrollbar {
+    width: 1em;
+    height: 1em;
+}
+
+body.dark::-webkit-scrollbar-track, body.dark div::-webkit-scrollbar-track,
+body.dark::-webkit-scrollbar-corner,body.dark div::-webkit-scrollbar-corner {
+    border: 1px solid #333;
+    background-color: #242424;
+}
+
+body.dark::-webkit-scrollbar-thumb,body.dark div::-webkit-scrollbar-thumb {
+    background-color: #333;
+    border: 1px solid #4a4a4a;
+}
